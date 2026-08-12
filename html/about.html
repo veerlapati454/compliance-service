@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Precept Compliance</title>
+    <meta name="description" content="Who we are and why compliance teams trust Precept for SOC 2, ISO 27001, GDPR, HIPAA and PCI DSS engagements.">
+    <!-- Google Fonts: Plus Jakarta Sans & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css?v=2">
+    <link rel="stylesheet" href="../css/about.css?v=1">
+    
+</head>
+<body>
+
+    <!-- Scroll Progress Indicator Bar -->
+    <div class="scroll-progress-container">
+        <div class="scroll-progress-bar" id="page-scroll-indicator"></div>
+    </div>
+
+    <div class="site-wrapper" id="page-wrapper-container">
+
+        <!-- Floating Pill-Shaped Navbar Header (shared with home/insights) -->
+        <header class="navbar-wrapper reveal-fade">
+            <div class="navbar-pill" id="navbar-pill-element">
+                <a href="index.html" class="navbar-brand" id="stackly-logo-home">
+                    <img src="../assets/stck2.webp" alt="Precept Compliance Logo" class="brand-logo-img">
+                </a>
+
+                <nav class="navbar-links" id="main-nav-links">
+                    <a href="index.html" class="nav-item" id="nav-item-home">Home</a>
+                    <a href="service.html" class="nav-item" id="nav-item-services">Services</a>
+                    <a href="insights.html" class="nav-item" id="nav-item-blog">Insights</a>
+                    <a href="about.html" class="nav-item active" id="nav-item-about">About us</a>
+                    <a href="contact.html" class="nav-item" id="nav-item-contact">Contact</a>
+                    <div class="mobile-nav-actions">
+                        <a href="login.html" class="btn-login">Login</a>
+                        <a href="signup.html" class="btn-signup">Signup</a>
+                    </div>
+                </nav>
+
+                <div class="navbar-actions">
+                    <a href="login.html" class="btn-login" id="btn-navbar-login">Login</a>
+                    <a href="signup.html" class="btn-signup" id="btn-navbar-signup">Signup</a>
+                    <button class="menu-hamburger" id="nav-menu-hamburger" aria-label="Toggle Navigation Menu" aria-expanded="false">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- ============================================================
+             SECTION 1 — About Hero (split layout, parallax floating cards)
+             ============================================================ -->
+        <section class="abt-hero" id="abt-hero-trigger">
+            <div class="abt-hero-bg" id="abt-hero-bg" aria-hidden="true"></div>
+            <div class="abt-hero-inner">
+                <div class="abt-hero-text">
+                    <div class="abt-hero-eyebrow reveal-text delay-1">
+                        <span class="abt-hero-eyebrow-dot"></span>
+                        About Precept
+                    </div>
+                    <h1 class="abt-hero-heading reveal-text delay-2">
+                        We turn audits into<br>
+                        <span class="abt-hero-heading-accent">proof, not paperwork.</span>
+                    </h1>
+                    <p class="abt-hero-desc reveal-text delay-3">
+                        Precept was built by former auditors and security engineers who were tired of watching
+                        good companies drown in spreadsheets. We run the engagement, own the evidence, and get
+                        you to a clean report without the busywork.
+                    </p>
+                    <div class="abt-hero-actions reveal-text delay-4">
+                        <a href="contact.html" class="btn-book">Talk to us</a>
+                        <a href="#abt-story" class="btn-learn">Our story</a>
+                    </div>
+                </div>
+
+                <div class="abt-hero-visual reveal-text delay-4" id="abt-hero-visual">
+                    <div class="abt-hero-img-wrap">
+                        <img src="../assets/cc50.webp" alt="Precept advisory team working" class="abt-hero-img">
+                    </div>
+                    <div class="abt-float-card abt-float-card-1" data-tilt-depth="18">
+                        <span class="abt-float-icon"><i class="fa-solid fa-shield-halved"></i></span>
+                        <div>
+                            <strong>SOC 2 Type II</strong>
+                            <span>Zero exceptions, 3 years running</span>
+                        </div>
+                    </div>
+                    <div class="abt-float-card abt-float-card-2" data-tilt-depth="28">
+                        <span class="abt-float-icon"><i class="fa-solid fa-users"></i></span>
+                        <div>
+                            <strong>210+ clients</strong>
+                            <span>audited since 2018</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             SECTION 2 — Our Story (scroll-filled vertical timeline)
+             ============================================================ -->
+        <section class="abt-story" id="abt-story">
+            <div class="svc-section-header reveal-scroll-up">
+                <span class="section-tagline">HOW WE GOT HERE</span>
+                <h2 class="svc-section-heading">Our story, in five chapters</h2>
+                <p class="svc-section-sub">From a two-person advisory shop to the team compliance leads call before their auditor does.</p>
+            </div>
+
+            <div class="abt-timeline-wrap" id="abt-timeline-wrap">
+                <div class="abt-timeline-rail">
+                    <div class="abt-timeline-fill" id="abt-timeline-fill"></div>
+                </div>
+
+                <div class="abt-timeline-items">
+                    <div class="abt-timeline-item reveal-scroll-up">
+                        <span class="abt-timeline-dot"></span>
+                        <span class="abt-timeline-year">2018</span>
+                        <h3>Founded in a spare bedroom</h3>
+                        <p>Two auditors left Big Four to build the compliance partner they wished they'd had — plain-language, evidence-first, no fear tactics.</p>
+                    </div>
+                    <div class="abt-timeline-item reveal-scroll-up">
+                        <span class="abt-timeline-dot"></span>
+                        <span class="abt-timeline-year">2020</span>
+                        <h3>First SOC 2 practice launches</h3>
+                        <p>Our readiness playbook takes its first cohort of SaaS startups from kickoff to clean Type I report in under 90 days.</p>
+                    </div>
+                    <div class="abt-timeline-item reveal-scroll-up">
+                        <span class="abt-timeline-dot"></span>
+                        <span class="abt-timeline-year">2022</span>
+                        <h3>ISO 27001 and GDPR added</h3>
+                        <p>As clients expanded into the EU, we brought ISO lead assessors and privacy counsel in-house instead of outsourcing.</p>
+                    </div>
+                    <div class="abt-timeline-item reveal-scroll-up">
+                        <span class="abt-timeline-dot"></span>
+                        <span class="abt-timeline-year">2024</span>
+                        <h3>200th client, automated evidence</h3>
+                        <p>We shipped continuous evidence collection tooling, cutting average prep time from weeks to days for repeat audits.</p>
+                    </div>
+                    <div class="abt-timeline-item reveal-scroll-up">
+                        <span class="abt-timeline-dot"></span>
+                        <span class="abt-timeline-year">2026</span>
+                        <h3>Today</h3>
+                        <p>A team of 40+ advisors, auditors, and engineers across five frameworks, still answering the phone ourselves.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             SECTION 3 — Mission & Values (tilt cards)
+             ============================================================ -->
+        <section class="abt-values">
+            <div class="svc-section-header reveal-scroll-up">
+                <span class="section-tagline">WHAT WE STAND FOR</span>
+                <h2 class="svc-section-heading">Three rules we don't break</h2>
+                <p class="svc-section-sub">Every engagement, every framework, every client — these hold.</p>
+            </div>
+
+            <div class="abt-values-grid" id="abt-values-grid">
+                <div class="abt-value-card abt-stagger-item">
+                    <span class="abt-value-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></span>
+                    <h3>Evidence-first rigor</h3>
+                    <p>If it isn't documented, it didn't happen. We build your evidence trail before your auditor ever asks for it.</p>
+                </div>
+                <div class="abt-value-card abt-stagger-item">
+                    <span class="abt-value-icon"><i class="fa-solid fa-handshake"></i></span>
+                    <h3>Trust, not fear</h3>
+                    <p>No scare tactics, no padded scopes. We tell you exactly what's required and nothing you don't need.</p>
+                </div>
+                <div class="abt-value-card abt-stagger-item">
+                    <span class="abt-value-icon"><i class="fa-solid fa-bolt"></i></span>
+                    <h3>Speed without shortcuts</h3>
+                    <p>Automation handles the busywork so our advisors spend their time on the judgment calls that actually matter.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             SECTION 3B — Why Precept (side-by-side comparison)
+             ============================================================ -->
+        <section class="abt-compare" id="abt-compare">
+            <div class="svc-section-header reveal-scroll-up">
+                <span class="section-tagline">THE DIFFERENCE</span>
+                <h2 class="svc-section-heading">Why teams switch to us</h2>
+                <p class="svc-section-sub">Most of our clients have been through at least one audit with someone else first. Here's what usually changes when they move to Precept.</p>
+            </div>
+
+            <div class="abt-compare-grid" id="abt-compare-grid">
+                <div class="abt-compare-col abt-compare-old">
+                    <h3 class="abt-compare-col-title">Traditional compliance firms</h3>
+                    <ul class="abt-compare-list">
+                        <li class="abt-compare-row abt-stagger-item"><span class="abt-compare-icon abt-icon-no"><i class="fa-solid fa-xmark"></i></span>Generic checklist audits, same evidence requests for every client</li>
+                        <li class="abt-compare-row abt-stagger-item"><span class="abt-compare-icon abt-icon-no"><i class="fa-solid fa-xmark"></i></span>Weeks of email chasing for screenshots and log exports</li>
+                        <li class="abt-compare-row abt-stagger-item"><span class="abt-compare-icon abt-icon-no"><i class="fa-solid fa-xmark"></i></span>Junior staff run point, partners appear at kickoff and sign-off only</li>
+                        <li class="abt-compare-row abt-stagger-item"><span class="abt-compare-icon abt-icon-no"><i class="fa-solid fa-xmark"></i></span>Scope creep discovered mid-engagement, billed hourly</li>
+                        <li class="abt-compare-row abt-stagger-item"><span class="abt-compare-icon abt-icon-no"><i class="fa-solid fa-xmark"></i></span>One report delivered, then radio silence until next cycle</li>
+                    </ul>
+                </div>
+
+                <div class="abt-compare-col abt-compare-new">
+                    <span class="abt-compare-badge">Precept</span>
+                    <h3 class="abt-compare-col-title">The Precept way</h3>
+                    <ul class="abt-compare-list">
+                        <li class="abt-compare-row abt-stagger-item"><span class="abt-compare-icon abt-icon-yes"><i class="fa-solid fa-check"></i></span>Evidence plan built around your actual stack and architecture</li>
+                        <li class="abt-compare-row abt-stagger-item"><span class="abt-compare-icon abt-icon-yes"><i class="fa-solid fa-check"></i></span>Automated evidence collection dashboard, connected once</li>
+                        <li class="abt-compare-row abt-stagger-item"><span class="abt-compare-icon abt-icon-yes"><i class="fa-solid fa-check"></i></span>A senior auditor on your account from the first call</li>
+                        <li class="abt-compare-row abt-stagger-item"><span class="abt-compare-icon abt-icon-yes"><i class="fa-solid fa-check"></i></span>Fixed scope and fixed price, confirmed in writing before we start</li>
+                        <li class="abt-compare-row abt-stagger-item"><span class="abt-compare-icon abt-icon-yes"><i class="fa-solid fa-check"></i></span>Year-round advisory access between audit cycles, no extra retainer</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             SECTION 4 — Reading/Company Stats (count-up on scroll)
+             ============================================================ -->
+        <section class="abt-stats-section">
+            <div class="abt-stats-card reveal-scroll-up" id="abt-stats-card">
+                <div class="stat-column">
+                    <div class="stat-number-wrapper">
+                        <span class="stat-number" data-target="8">0</span><span class="stat-suffix">yrs</span>
+                    </div>
+                    <p class="stat-label">In business</p>
+                </div>
+                <div class="stat-column">
+                    <div class="stat-number-wrapper">
+                        <span class="stat-number" data-target="210">0</span><span class="stat-suffix">+</span>
+                    </div>
+                    <p class="stat-label">Clients audited</p>
+                </div>
+                <div class="stat-column">
+                    <div class="stat-number-wrapper">
+                        <span class="stat-number" data-target="98">0</span><span class="stat-suffix">%</span>
+                    </div>
+                    <p class="stat-label">First-pass audit rate</p>
+                </div>
+                <div class="stat-column">
+                    <div class="stat-number-wrapper">
+                        <span class="stat-number" data-target="40">0</span><span class="stat-suffix">+</span>
+                    </div>
+                    <p class="stat-label">Advisors on staff</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             SECTION 5 — Leadership Team (flip cards)
+             ============================================================ -->
+        <section class="abt-team" id="abt-team">
+            <div class="svc-section-header reveal-scroll-up">
+                <span class="section-tagline">THE PEOPLE</span>
+                <h2 class="svc-section-heading">Meet the leadership team</h2>
+                <p class="svc-section-sub">Tap or hover a card to see what each of them actually does.</p>
+            </div>
+
+            <div class="abt-team-grid" id="abt-team-grid">
+
+                <div class="abt-team-card abt-stagger-item" tabindex="0">
+                    <div class="abt-team-card-inner">
+                        <div class="abt-team-face abt-team-front">
+                            <img src="../assets/cc51.webp" alt="Elena Kade">
+                            <h3>Elena Kade</h3>
+                            <p>Chief Compliance Officer</p>
+                        </div>
+                        <div class="abt-team-face abt-team-back">
+                            <h3>Elena Kade</h3>
+                            <p>15 years leading SOC 2 and ISO engagements for fintech and healthtech. Sets the audit strategy for every client.</p>
+                            <div class="abt-team-social">
+                                <a href="404.html" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                                <a href="mailto:advise@stackly.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="abt-team-card abt-stagger-item" tabindex="0">
+                    <div class="abt-team-card-inner">
+                        <div class="abt-team-face abt-team-front">
+                            <img src="../assets/cc52.webp" alt="Marcus Reyes">
+                            <h3>Marcus Reyes</h3>
+                            <p>Lead Auditor</p>
+                        </div>
+                        <div class="abt-team-face abt-team-back">
+                            <h3>Marcus Reyes</h3>
+                            <p>Runs Type I and Type II fieldwork end to end, from readiness assessment through final report sign-off.</p>
+                            <div class="abt-team-social">
+                                <a href="404.html" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                                <a href="mailto:advise@stackly.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="abt-team-card abt-stagger-item" tabindex="0">
+                    <div class="abt-team-card-inner">
+                        <div class="abt-team-face abt-team-front">
+                            <img src="../assets/cc53.webp" alt="Priya Anand">
+                            <h3>Priya Anand</h3>
+                            <p>Data Privacy Counsel</p>
+                        </div>
+                        <div class="abt-team-face abt-team-back">
+                            <h3>Priya Anand</h3>
+                            <p>Handles GDPR, CCPA, and HIPAA work — from BAAs to cross-border transfer reviews. Formerly in-house privacy counsel.</p>
+                            <div class="abt-team-social">
+                                <a href="404.html" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                                <a href="mailto:advise@stackly.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="abt-team-card abt-stagger-item" tabindex="0">
+                    <div class="abt-team-card-inner">
+                        <div class="abt-team-face abt-team-front">
+                            <img src="../assets/cc54.webp" alt="James Okafor">
+                            <h3>James Okafor</h3>
+                            <p>Security Compliance Lead</p>
+                        </div>
+                        <div class="abt-team-face abt-team-back">
+                            <h3>James Okafor</h3>
+                            <p>Owns pen test scoping, vendor risk reviews, and the continuous monitoring platform our clients use daily.</p>
+                            <div class="abt-team-social">
+                                <a href="404.html" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                                <a href="mailto:advise@stackly.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="abt-team-card abt-stagger-item" tabindex="0">
+                    <div class="abt-team-card-inner">
+                        <div class="abt-team-face abt-team-front">
+                            <img src="../assets/cc55.webp" alt="Devon Marsh">
+                            <h3>Devon Marsh</h3>
+                            <p>ISO Lead Assessor</p>
+                        </div>
+                        <div class="abt-team-face abt-team-back">
+                            <h3>Devon Marsh</h3>
+                            <p>Certified ISO 27001 lead assessor covering Annex A controls, Stage 1/2 audits, and surveillance visits.</p>
+                            <div class="abt-team-social">
+                                <a href="404.html" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                                <a href="mailto:advise@stackly.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="abt-team-card abt-stagger-item" tabindex="0">
+                    <div class="abt-team-card-inner">
+                        <div class="abt-team-face abt-team-front">
+                            <img src="../assets/cc56.webp" alt="Sofia Lindqvist">
+                            <h3>Sofia Lindqvist</h3>
+                            <p>Head of Client Success</p>
+                        </div>
+                        <div class="abt-team-face abt-team-back">
+                            <h3>Sofia Lindqvist</h3>
+                            <p>Your first call after signing — keeps every engagement on timeline and every question answered within a day.</p>
+                            <div class="abt-team-social">
+                                <a href="404.html" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                                <a href="mailto:advise@stackly.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ============================================================
+             SECTION 6 — Certifications ticker (infinite scroll strip)
+             ============================================================ -->
+        <section class="abt-certs">
+            <p class="abt-certs-label reveal-scroll-up">Backed by credentials our clients actually check</p>
+            <div class="abt-certs-wrap reveal-scroll-up">
+                <div class="abt-certs-track" id="abt-certs-track">
+                    <span class="abt-certs-item"><i class="fa-solid fa-certificate"></i> AICPA SOC 2 Practitioners</span>
+                    <span class="abt-certs-item"><i class="fa-solid fa-certificate"></i> ISO 27001 Lead Auditors</span>
+                    <span class="abt-certs-item"><i class="fa-solid fa-certificate"></i> CIPP/E Certified</span>
+                    <span class="abt-certs-item"><i class="fa-solid fa-certificate"></i> PCI QSA Partnered</span>
+                    <span class="abt-certs-item"><i class="fa-solid fa-certificate"></i> HIPAA Compliance Certified</span>
+                    <span class="abt-certs-item"><i class="fa-solid fa-certificate"></i> CISSP On Staff</span>
+                    <!-- duplicate set for seamless loop -->
+                    <span class="abt-certs-item"><i class="fa-solid fa-certificate"></i> AICPA SOC 2 Practitioners</span>
+                    <span class="abt-certs-item"><i class="fa-solid fa-certificate"></i> ISO 27001 Lead Auditors</span>
+                    <span class="abt-certs-item"><i class="fa-solid fa-certificate"></i> CIPP/E Certified</span>
+                    <span class="abt-certs-item"><i class="fa-solid fa-certificate"></i> PCI QSA Partnered</span>
+                    <span class="abt-certs-item"><i class="fa-solid fa-certificate"></i> HIPAA Compliance Certified</span>
+                    <span class="abt-certs-item"><i class="fa-solid fa-certificate"></i> CISSP On Staff</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             SECTION 6B — FAQ (accordion)
+             ============================================================ -->
+        <section class="abt-faq" id="abt-faq">
+            <div class="svc-section-header reveal-scroll-up">
+                <span class="section-tagline">COMMON QUESTIONS</span>
+                <h2 class="svc-section-heading">Before you reach out</h2>
+                <p class="svc-section-sub">The questions we hear on almost every first call.</p>
+            </div>
+
+            <div class="abt-faq-list reveal-scroll-up" id="abt-faq-list">
+
+                <div class="abt-faq-item is-open">
+                    <button class="abt-faq-question" aria-expanded="true">
+                        <span>How long does a SOC 2 audit typically take?</span>
+                        <span class="abt-faq-toggle"><i class="fa-solid fa-plus"></i></span>
+                    </button>
+                    <div class="abt-faq-answer">
+                        <p>Readiness usually runs 4–8 weeks depending on how much tooling you already have in place. A Type I report can be issued right after that. A Type II observation window is typically 3, 6, or 12 months, set by what your customers are asking for.</p>
+                    </div>
+                </div>
+
+                <div class="abt-faq-item">
+                    <button class="abt-faq-question" aria-expanded="false">
+                        <span>Do you work with early-stage startups?</span>
+                        <span class="abt-faq-toggle"><i class="fa-solid fa-plus"></i></span>
+                    </button>
+                    <div class="abt-faq-answer">
+                        <p>Yes — roughly a third of our engagements start pre-Series A. We scope down to what a small team can realistically maintain, then expand the control set as you grow instead of over-building on day one.</p>
+                    </div>
+                </div>
+
+                <div class="abt-faq-item">
+                    <button class="abt-faq-question" aria-expanded="false">
+                        <span>What's the actual difference between Type I and Type II?</span>
+                        <span class="abt-faq-toggle"><i class="fa-solid fa-plus"></i></span>
+                    </button>
+                    <div class="abt-faq-answer">
+                        <p>Type I confirms your controls are designed correctly at a single point in time. Type II confirms those controls actually operated effectively over a period — usually months. Most enterprise buyers will eventually ask for Type II, so we plan for it from the start even if you begin with Type I.</p>
+                    </div>
+                </div>
+
+                <div class="abt-faq-item">
+                    <button class="abt-faq-question" aria-expanded="false">
+                        <span>Can you support audits across multiple frameworks at once?</span>
+                        <span class="abt-faq-toggle"><i class="fa-solid fa-plus"></i></span>
+                    </button>
+                    <div class="abt-faq-answer">
+                        <p>Yes, and it's often cheaper together. SOC 2, ISO 27001, and HIPAA share a large percentage of underlying controls, so we map evidence once and reuse it across frameworks instead of running separate collection efforts for each.</p>
+                    </div>
+                </div>
+
+                <div class="abt-faq-item">
+                    <button class="abt-faq-question" aria-expanded="false">
+                        <span>What happens after we pass?</span>
+                        <span class="abt-faq-toggle"><i class="fa-solid fa-plus"></i></span>
+                    </button>
+                    <div class="abt-faq-answer">
+                        <p>You keep access to your advisor and the evidence dashboard year-round, not just during audit windows. When policies drift, staff turns over, or you add a new framework, we flag it before it becomes a finding at your next audit.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ============================================================
+             SECTION 7 — Wellness-style CTA (glass card, matches home/insights)
+             ============================================================ -->
+        <section class="wellness-section-container" id="abt-wellness">
+            <div class="wellness-card reveal-scroll-up" id="abt-wellness-bar">
+                <div class="wellness-content">
+                    <h2 class="wellness-title">Ready to get audit-ready?</h2>
+                    <p class="wellness-desc">Tell us which framework you're targeting and we'll map out a realistic timeline — usually within one call.</p>
+                    <form class="wellness-form" action="404.html">
+                        <input type="email" class="wellness-input" placeholder="Enter your work email" required>
+                        <button type="submit" class="btn-join">Get started</button>
+                    </form>
+                </div>
+                <div class="wellness-image-container">
+                    <img src="../assets/cc57.webp" alt="Precept team planning an engagement" class="nurse-img">
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             SECTION 8 — CTA Banner (shared styling with home/insights)
+             ============================================================ -->
+        <section class="cta-banner-section" id="cta-banner">
+            <div class="cta-card reveal-scroll-up">
+                <div class="cta-grid-overlay"></div>
+                <div class="cta-blob cta-blob-1"></div>
+                <div class="cta-blob cta-blob-2"></div>
+                <div class="cta-text-col">
+                    <h2 class="cta-banner-heading">Still deciding if we're<br>the right fit?</h2>
+                    <a href="contact.html" class="cta-banner-btn">
+                        <span>Book a Call</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- ===== Footer (shared with home/insights) ===== -->
+    <footer class="site-footer" id="site-footer">
+        <div class="footer-bg-anim"></div>
+        <div class="footer-inner">
+
+            <div class="footer-col footer-brand-col">
+                <a href="index.html" class="footer-logo-link">
+                    <img src="../assets/stck2.webp" alt="Precept Logo" class="footer-logo">
+                </a>
+                <p class="footer-tagline">At Precept, we deliver provable compliance focused on trust, evidence, and audit-day readiness.</p>
+                <div class="footer-contact-details">
+                    <a href="tel:+18005552947" class="footer-contact-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 14a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.62 3h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 10.09a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 17.92z"/></svg>
+                        +1 (800) 555-2947
+                    </a>
+                    <a href="mailto:advise@stackly.com" class="footer-contact-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                        advise@stackly.com
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-col footer-office-col">
+                <h4 class="footer-col-title">Office</h4>
+                <address class="footer-address">
+                    Hyderabad—<br>
+                    212 Statute Avenue,<br>
+                    hi-tech city, 500031
+                </address>
+                <a href="mailto:info@stackly.com" class="footer-office-link">info@stackly.com</a>
+                <a href="tel:+13025550147" class="footer-office-link">+1 302 555 0147</a>
+            </div>
+
+            <div class="footer-col footer-links-col">
+                <h4 class="footer-col-title">Links</h4>
+                <nav class="footer-nav">
+                    <a href="index.html" class="footer-nav-link">Home</a>
+                    <a href="service.html" class="footer-nav-link">Services</a>
+                    <a href="insights.html" class="footer-nav-link">Insights</a>
+                    <a href="about.html" class="footer-nav-link">About us</a>
+                    <a href="contact.html" class="footer-nav-link">Contact</a>
+                </nav>
+            </div>
+
+            <div class="footer-col footer-social-col">
+                <h4 class="footer-col-title">Follow us</h4>
+                <div class="footer-social-icons">
+                    <a href="404.html" class="footer-social-btn" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                    </a>
+                    <a href="404.html" class="footer-social-btn" aria-label="X (Twitter)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    </a>
+                    <a href="404.html" class="footer-social-btn" aria-label="Facebook">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                    </a>
+                    <a href="404.html" class="footer-social-btn" aria-label="YouTube">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.95C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96C1 8.12 1 12 1 12s0 3.88.46 5.58a2.78 2.78 0 0 0 1.95 1.95C5.12 20 12 20 12 20s6.88 0 8.59-.47a2.78 2.78 0 0 0 1.95-1.95C23 15.88 23 12 23 12s0-3.88-.46-5.58z"/><polygon fill="currentColor" stroke="none" points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p class="footer-copy">&copy; 2026 STACKLY Compliance, Inc. All rights reserved.</p>
+            <div class="footer-bottom-links">
+                <a href="#">Privacy Policy</a>
+                <span>·</span>
+                <a href="#">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/script.js"></script>
+    <script src="../js/about.js"></script>
+   
+</body>
+</html>

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Precept Compliance</title>
+    <meta name="description" content="Talk to a Precept advisor about SOC 2, ISO 27001, GDPR, HIPAA or PCI DSS. Visit our Hyderabad office or reach out online.">
+    <!-- Google Fonts: Plus Jakarta Sans & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css?v=2">
+    <link rel="stylesheet" href="../css/contact.css?v=1">
+    
+</head>
+<body>
+
+    <!-- Scroll Progress Indicator Bar -->
+    <div class="scroll-progress-container">
+        <div class="scroll-progress-bar" id="page-scroll-indicator"></div>
+    </div>
+
+    <div class="site-wrapper" id="page-wrapper-container">
+
+        <!-- Floating Pill-Shaped Navbar Header (shared with home/insights/about) -->
+        <header class="navbar-wrapper reveal-fade">
+            <div class="navbar-pill" id="navbar-pill-element">
+                <a href="index.html" class="navbar-brand" id="stackly-logo-home">
+                    <img src="../assets/stck2.webp" alt="Precept Compliance Logo" class="brand-logo-img">
+                </a>
+
+                <nav class="navbar-links" id="main-nav-links">
+                    <a href="index.html" class="nav-item" id="nav-item-home">Home</a>
+                    <a href="service.html" class="nav-item" id="nav-item-services">Services</a>
+                    <a href="insights.html" class="nav-item" id="nav-item-blog">Insights</a>
+                    <a href="about.html" class="nav-item" id="nav-item-about">About us</a>
+                    <a href="contact.html" class="nav-item active" id="nav-item-contact">Contact</a>
+                    <div class="mobile-nav-actions">
+                        <a href="login.html" class="btn-login">Login</a>
+                        <a href="signup.html" class="btn-signup">Signup</a>
+                    </div>
+                </nav>
+
+                <div class="navbar-actions">
+                    <a href="login.html" class="btn-login" id="btn-navbar-login">Login</a>
+                    <a href="signup.html" class="btn-signup" id="btn-navbar-signup">Signup</a>
+                    <button class="menu-hamburger" id="nav-menu-hamburger" aria-label="Toggle Navigation Menu" aria-expanded="false">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- ============================================================
+             SECTION 1 — Hero
+             ============================================================ -->
+        <section class="ctc-hero" id="ctc-hero-trigger">
+            <div class="ctc-hero-bg" id="ctc-hero-bg" aria-hidden="true"></div>
+            <div class="ctc-hero-inner">
+                <div class="ctc-hero-eyebrow reveal-text delay-1">
+                    <span class="ctc-hero-eyebrow-dot"></span>
+                    Get in touch
+                </div>
+                <h1 class="ctc-hero-heading reveal-text delay-2">
+                    Let's figure out what<br>
+                    <span class="ctc-hero-heading-accent">audit-ready</span> looks like for you.
+                </h1>
+                <p class="ctc-hero-desc reveal-text delay-3">
+                    Tell us which framework you're targeting and where you're stuck. A real advisor
+                    responds within one business day — no sales queue, no bots.
+                </p>
+                <div class="ctc-hero-actions reveal-text delay-4">
+                    <a href="#ctc-form" class="btn-book">Send a message</a>
+                    <a href="tel:+18005552947" class="btn-learn">Call +1 (800) 555-2947</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             SECTION 2 — Contact info cards (stagger reveal)
+             ============================================================ -->
+        <section class="ctc-info">
+            <div class="ctc-info-grid" id="ctc-info-grid">
+
+                <div class="ctc-info-card ctc-stagger-item">
+                    <span class="ctc-info-icon"><i class="fa-solid fa-phone"></i></span>
+                    <h3>Call us</h3>
+                    <p>Mon–Fri, 9am–6pm IST. For anything urgent, this is the fastest line.</p>
+                    <a href="tel:+18005552947" class="ctc-info-link">+1 (800) 555-2947</a>
+                </div>
+
+                <div class="ctc-info-card ctc-stagger-item">
+                    <span class="ctc-info-icon"><i class="fa-solid fa-envelope"></i></span>
+                    <h3>Email us</h3>
+                    <p>For scoping questions, RFPs, or anything you'd rather put in writing.</p>
+                    <a href="mailto:advise@stackly.com" class="ctc-info-link">advise@stackly.com</a>
+                </div>
+
+                <div class="ctc-info-card ctc-stagger-item">
+                    <span class="ctc-info-icon"><i class="fa-solid fa-location-dot"></i></span>
+                    <h3>Visit us</h3>
+                    <p>212 Statute Avenue, Hi-Tech City, Hyderabad, 500031.</p>
+                    <a href="#ctc-map" class="ctc-info-link">See the map</a>
+                </div>
+
+                <div class="ctc-info-card ctc-stagger-item">
+                    <span class="ctc-info-icon"><i class="fa-solid fa-clock"></i></span>
+                    <h3>Response time</h3>
+                    <p>Every message gets a reply from an advisor, not a form letter.</p>
+                    <span class="ctc-info-link ctc-info-static">Within 1 business day</span>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ============================================================
+             SECTION 3 — Contact form + Google Map (split layout)
+             ============================================================ -->
+        <section class="ctc-form-section" id="ctc-form">
+            <div class="ctc-form-grid">
+
+                <div class="ctc-form-col reveal-scroll-up">
+                    <span class="section-tagline">SEND A MESSAGE</span>
+                    <h2 class="svc-section-heading">Start the conversation</h2>
+                    <p class="svc-section-sub">Give us a bit of context and we'll come back with next steps, not a generic sales deck.</p>
+
+                    <form class="ctc-form" action="404.html">
+                        <div class="ctc-form-row">
+                            <div class="ctc-form-field">
+                                <label for="ctc-name">Full name</label>
+                                <input type="text" id="ctc-name" name="name" placeholder="Jordan Lee" required>
+                            </div>
+                            <div class="ctc-form-field">
+                                <label for="ctc-email">Work email</label>
+                                <input type="email" id="ctc-email" name="email" placeholder="jordan@company.com" required>
+                            </div>
+                        </div>
+                        <div class="ctc-form-row">
+                            <div class="ctc-form-field">
+                                <label for="ctc-company">Company</label>
+                                <input type="text" id="ctc-company" name="company" placeholder="Company name">
+                            </div>
+                            <div class="ctc-form-field">
+                                <label for="ctc-framework">Framework you need</label>
+                                <select id="ctc-framework" name="framework">
+                                    <option value="">Select one</option>
+                                    <option value="soc2">SOC 2</option>
+                                    <option value="iso27001">ISO 27001</option>
+                                    <option value="gdpr">GDPR</option>
+                                    <option value="hipaa">HIPAA</option>
+                                    <option value="pcidss">PCI DSS</option>
+                                    <option value="other">Not sure yet</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="ctc-form-field">
+                            <label for="ctc-message">What's going on?</label>
+                            <textarea id="ctc-message" name="message" rows="5" placeholder="A customer is asking for our SOC 2 report and we haven't started..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn-book ctc-form-submit">
+                            Send message
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="ctc-map-col reveal-scroll-up" id="ctc-map">
+                    <div class="ctc-map-card">
+                        <div class="ctc-map-frame-wrap">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3907.1616097152896!2d78.1739798!3d11.682956599999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babefef7fd970bb%3A0xe11aef1a71994f9!2sStackly!5e0!3m2!1sen!2sin!4v1786440072153!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                        </div>
+                        <div class="ctc-map-caption">
+                            <span class="ctc-map-icon"><i class="fa-solid fa-location-dot"></i></span>
+                            <div>
+                                <strong>Precept HQ</strong>
+                                <span>212 Statute Avenue, Hi-Tech City, Hyderabad, 500031</span>
+                            </div>
+                            <a href="https://www.google.com/maps/place/Stackly" target="_blank" rel="noopener" class="ctc-map-directions">Directions</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ============================================================
+             SECTION 4 — What happens next (scroll-driven horizontal steps)
+             ============================================================ -->
+        <section class="ctc-steps-outer" id="ctc-steps-outer">
+            <div class="ctc-steps-sticky">
+                <div class="ctc-steps-header reveal-scroll-up">
+                    <span class="section-tagline">WHAT HAPPENS NEXT</span>
+                    <h2 class="svc-section-heading">Four steps, no black box</h2>
+                </div>
+                <div class="ctc-steps-track" id="ctc-steps-track">
+
+                    <div class="ctc-step-card">
+                        <span class="ctc-step-num">01</span>
+                        <span class="ctc-step-icon"><i class="fa-solid fa-comments"></i></span>
+                        <h3>Discovery call</h3>
+                        <p>30 minutes to understand your stack, your customers' requirements, and your timeline.</p>
+                    </div>
+
+                    <div class="ctc-step-card">
+                        <span class="ctc-step-num">02</span>
+                        <span class="ctc-step-icon"><i class="fa-solid fa-file-signature"></i></span>
+                        <h3>Scope & proposal</h3>
+                        <p>A fixed-price proposal with a realistic timeline, sent within 2 business days.</p>
+                    </div>
+
+                    <div class="ctc-step-card">
+                        <span class="ctc-step-num">03</span>
+                        <span class="ctc-step-icon"><i class="fa-solid fa-diagram-project"></i></span>
+                        <h3>Kickoff & evidence mapping</h3>
+                        <p>We connect our monitoring tools to your environment and map every control to real evidence.</p>
+                    </div>
+
+                    <div class="ctc-step-card">
+                        <span class="ctc-step-num">04</span>
+                        <span class="ctc-step-icon"><i class="fa-solid fa-shield-halved"></i></span>
+                        <h3>Audit & ongoing support</h3>
+                        <p>We run fieldwork alongside you and stay on as your advisor between audit cycles.</p>
+                    </div>
+
+                </div>
+                <div class="ctc-steps-progress" aria-hidden="true">
+                    <div class="ctc-steps-progress-bar" id="ctc-steps-progress-bar"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             SECTION 5 — FAQ (accordion)
+             ============================================================ -->
+        <section class="ctc-faq" id="ctc-faq">
+            <div class="svc-section-header reveal-scroll-up">
+                <span class="section-tagline">BEFORE YOU WRITE IN</span>
+                <h2 class="svc-section-heading">Quick answers</h2>
+                <p class="svc-section-sub">Common questions people ask before their first call.</p>
+            </div>
+
+            <div class="ctc-faq-list reveal-scroll-up" id="ctc-faq-list">
+
+                <div class="ctc-faq-item is-open">
+                    <button class="ctc-faq-question" aria-expanded="true">
+                        <span>How fast do you actually respond?</span>
+                        <span class="ctc-faq-toggle"><i class="fa-solid fa-plus"></i></span>
+                    </button>
+                    <div class="ctc-faq-answer">
+                        <p>Within one business day, usually much sooner. Messages go straight to an advisor's inbox — there's no ticket queue in between.</p>
+                    </div>
+                </div>
+
+                <div class="ctc-faq-item">
+                    <button class="ctc-faq-question" aria-expanded="false">
+                        <span>Is the first call actually free?</span>
+                        <span class="ctc-faq-toggle"><i class="fa-solid fa-plus"></i></span>
+                    </button>
+                    <div class="ctc-faq-answer">
+                        <p>Yes, no strings attached. We use it to understand your situation and tell you honestly whether we're a good fit — sometimes the answer is "not yet."</p>
+                    </div>
+                </div>
+
+                <div class="ctc-faq-item">
+                    <button class="ctc-faq-question" aria-expanded="false">
+                        <span>Can we meet in person at the Hyderabad office?</span>
+                        <span class="ctc-faq-toggle"><i class="fa-solid fa-plus"></i></span>
+                    </button>
+                    <div class="ctc-faq-answer">
+                        <p>Absolutely — email us ahead of time and we'll set up a slot. Most engagements run fine over video, but plenty of clients prefer to kick off in person.</p>
+                    </div>
+                </div>
+
+                <div class="ctc-faq-item">
+                    <button class="ctc-faq-question" aria-expanded="false">
+                        <span>What should I have ready before the call?</span>
+                        <span class="ctc-faq-toggle"><i class="fa-solid fa-plus"></i></span>
+                    </button>
+                    <div class="ctc-faq-answer">
+                        <p>Nothing formal. It helps to know roughly which framework a customer or investor is asking for and what your infrastructure looks like, but we'll walk through it together either way.</p>
+                    </div>
+                </div>
+
+                <div class="ctc-faq-item">
+                    <button class="ctc-faq-question" aria-expanded="false">
+                        <span>Do you work with companies outside India?</span>
+                        <span class="ctc-faq-toggle"><i class="fa-solid fa-plus"></i></span>
+                    </button>
+                    <div class="ctc-faq-answer">
+                        <p>Most of our clients are outside India. Engagements run remotely by default, with fieldwork and calls scheduled around your timezone.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ============================================================
+             SECTION 6 — Wellness-style CTA (glass card, matches other pages)
+             ============================================================ -->
+        <section class="wellness-section-container" id="ctc-wellness">
+            <div class="wellness-card reveal-scroll-up" id="ctc-wellness-bar">
+                <div class="wellness-content">
+                    <h2 class="wellness-title">Prefer to talk it through live?</h2>
+                    <p class="wellness-desc">Skip the form and grab 30 minutes directly on an advisor's calendar — no waiting on a reply.</p>
+                    <form class="wellness-form" action="404.html">
+                        <input type="email" class="wellness-input" placeholder="Enter your work email" required>
+                        <button type="submit" class="btn-join">Book a call</button>
+                    </form>
+                </div>
+                <div class="wellness-image-container">
+                    <img src="../assets/cc58.webp" alt="Precept advisor on a client call" class="nurse-img">
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             SECTION 7 — CTA Banner (shared styling with other pages)
+             ============================================================ -->
+        <section class="cta-banner-section" id="cta-banner">
+            <div class="cta-card reveal-scroll-up">
+                <div class="cta-grid-overlay"></div>
+                <div class="cta-blob cta-blob-1"></div>
+                <div class="cta-blob cta-blob-2"></div>
+                <div class="cta-text-col">
+                    <h2 class="cta-banner-heading">Not ready to talk yet?<br>Read the field notes.</h2>
+                    <a href="insights.html" class="cta-banner-btn">
+                        <span>Browse Insights</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- ===== Footer (shared with other pages) ===== -->
+    <footer class="site-footer" id="site-footer">
+        <div class="footer-bg-anim"></div>
+        <div class="footer-inner">
+
+            <div class="footer-col footer-brand-col">
+                <a href="index.html" class="footer-logo-link">
+                    <img src="../assets/stck2.webp" alt="Precept Logo" class="footer-logo">
+                </a>
+                <p class="footer-tagline">At Precept, we deliver provable compliance focused on trust, evidence, and audit-day readiness.</p>
+                <div class="footer-contact-details">
+                    <a href="tel:+18005552947" class="footer-contact-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 14a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.62 3h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 10.09a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 17.92z"/></svg>
+                        +1 (800) 555-2947
+                    </a>
+                    <a href="mailto:advise@stackly.com" class="footer-contact-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                        advise@stackly.com
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-col footer-office-col">
+                <h4 class="footer-col-title">Office</h4>
+                <address class="footer-address">
+                    Hyderabad—<br>
+                    212 Statute Avenue,<br>
+                    hi-tech city, 500031
+                </address>
+                <a href="mailto:info@stackly.com" class="footer-office-link">info@stackly.com</a>
+                <a href="tel:+13025550147" class="footer-office-link">+1 302 555 0147</a>
+            </div>
+
+            <div class="footer-col footer-links-col">
+                <h4 class="footer-col-title">Links</h4>
+                <nav class="footer-nav">
+                    <a href="index.html" class="footer-nav-link">Home</a>
+                    <a href="service.html" class="footer-nav-link">Services</a>
+                    <a href="insights.html" class="footer-nav-link">Insights</a>
+                    <a href="about.html" class="footer-nav-link">About us</a>
+                    <a href="contact.html" class="footer-nav-link">Contact</a>
+                </nav>
+            </div>
+
+            <div class="footer-col footer-social-col">
+                <h4 class="footer-col-title">Follow us</h4>
+                <div class="footer-social-icons">
+                    <a href="404.html" class="footer-social-btn" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                    </a>
+                    <a href="404.html" class="footer-social-btn" aria-label="X (Twitter)">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    </a>
+                    <a href="404.html" class="footer-social-btn" aria-label="Facebook">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                    </a>
+                    <a href="404.html" class="footer-social-btn" aria-label="YouTube">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.95C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96C1 8.12 1 12 1 12s0 3.88.46 5.58a2.78 2.78 0 0 0 1.95 1.95C5.12 20 12 20 12 20s6.88 0 8.59-.47a2.78 2.78 0 0 0 1.95-1.95C23 15.88 23 12 23 12s0-3.88-.46-5.58z"/><polygon fill="currentColor" stroke="none" points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p class="footer-copy">&copy; 2026 STACKLY Compliance, Inc. All rights reserved.</p>
+            <div class="footer-bottom-links">
+                <a href="#">Privacy Policy</a>
+                <span>·</span>
+                <a href="#">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/script.js"></script>
+    <script src="../js/contact.js"></script>
+    
+</body>
+</html>

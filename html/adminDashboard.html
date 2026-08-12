@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compliance Dashboard — Stackly Compliance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root{--primary:#2563EB;--primary-dark:#1E3A8A;--primary-light:#60A5FA;--bg:#EFF6FF;--sidebar-w:268px;--topbar-h:70px;--white:#fff;--text:#0F172A;--text-muted:#475569;--border:rgba(37,99,235,0.18);--shadow:0 4px 24px rgba(30,58,138,0.09);--radius:18px;--transition:all 0.35s cubic-bezier(0.16,1,0.3,1)}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+
+/* ── SIDEBAR ── */
+.sidebar{position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;background:linear-gradient(180deg,#1e3a8a 0%,#172554 100%);display:flex;flex-direction:column;z-index:100;transition:var(--transition);overflow:hidden}
+.sidebar-logo{padding:28px 24px 20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,0.07)}
+.sidebar-logo img{height:34px;filter:brightness(0) invert(1)}
+.sidebar-logo-text{font-family:'Outfit',sans-serif;font-size:1.1rem;font-weight:700;color:#fff}
+.sidebar-user{padding:18px 20px;margin:12px 16px;background:rgba(255,255,255,0.07);border-radius:14px;display:flex;align-items:center;gap:12px}
+.sidebar-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#93C5FD);display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:700;color:#fff;flex-shrink:0}
+.sidebar-user-info{overflow:hidden}
+.sidebar-user-name{font-size:0.88rem;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sidebar-user-email{font-size:0.72rem;color:rgba(255,255,255,0.55);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sidebar-role-badge{font-size:0.64rem;font-weight:700;background:rgba(37,99,235,0.25);color:var(--primary-light);border-radius:100px;padding:2px 9px;margin-top:3px;display:inline-block;letter-spacing:0.06em;text-transform:uppercase}
+.sidebar-nav{flex:1;overflow-y:auto;padding:8px 12px;scrollbar-width:none}
+.sidebar-nav::-webkit-scrollbar{display:none}
+.sidebar-section-title{font-size:0.65rem;font-weight:700;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:0.14em;padding:18px 12px 8px}
+.nav-item{display:flex;align-items:center;gap:13px;padding:12px 16px;border-radius:12px;cursor:pointer;transition:var(--transition);color:rgba(255,255,255,0.65);font-size:0.9rem;font-weight:500;position:relative;margin-bottom:2px;text-decoration:none}
+.nav-item:hover{background:rgba(255,255,255,0.08);color:#fff}
+.nav-item.active{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;box-shadow:0 6px 20px rgba(37,99,235,0.35)}
+.nav-item svg{width:18px;height:18px;flex-shrink:0}
+.nav-item .nav-badge{margin-left:auto;background:rgba(255,255,255,0.15);color:#fff;font-size:0.65rem;font-weight:700;padding:2px 8px;border-radius:100px;min-width:22px;text-align:center}
+.nav-item.active .nav-badge{background:rgba(255,255,255,0.25)}
+.nav-logout{margin:12px;border-top:1px solid rgba(255,255,255,0.07);padding-top:12px}
+.nav-logout a{display:flex;align-items:center;gap:13px;padding:12px 16px;border-radius:12px;cursor:pointer;color:rgba(29,78,216,0.8);font-size:0.9rem;font-weight:500;text-decoration:none;transition:var(--transition)}
+.nav-logout a:hover{background:rgba(29,78,216,0.1);color:#1D4ED8}
+.nav-logout svg{width:18px;height:18px}
+
+/* ── TOPBAR ── */
+.topbar{position:fixed;top:0;left:var(--sidebar-w);right:0;height:var(--topbar-h);background:rgba(255,255,255,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 32px;z-index:90;transition:var(--transition)}
+.topbar-left .page-title{font-family:'Outfit',sans-serif;font-size:1.25rem;font-weight:700;color:var(--text)}
+.topbar-left .page-subtitle{font-size:0.8rem;color:var(--text-muted)}
+.topbar-right{display:flex;align-items:center;gap:14px}
+.topbar-date-filter{display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:8px 14px;font-size:0.83rem;color:var(--text-muted);font-weight:500}
+.topbar-date-filter input{border:none;background:transparent;font-size:0.83rem;color:var(--text);font-family:inherit;outline:none;width:110px}
+.topbar-date-filter svg{width:15px;height:15px;color:var(--primary)}
+.topbar-search{display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:8px 14px}
+.topbar-search input{border:none;background:transparent;font-size:0.83rem;font-family:inherit;outline:none;width:160px;color:var(--text)}
+.topbar-search input::placeholder{color:var(--text-muted)}
+.topbar-search svg{width:15px;height:15px;color:var(--text-muted)}
+.topbar-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#93C5FD);display:flex;align-items:center;justify-content:center;font-size:0.95rem;font-weight:700;color:#fff;cursor:pointer}
+.notif-btn{position:relative;width:38px;height:38px;border-radius:10px;border:1px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:var(--transition)}
+.notif-btn:hover{background:var(--bg)}
+.notif-btn svg{width:17px;height:17px;color:var(--text-muted)}
+.notif-dot{position:absolute;top:7px;right:7px;width:7px;height:7px;background:#3B82F6;border-radius:50%;border:1.5px solid #fff}
+
+/* ── MAIN CONTENT ── */
+.main{margin-left:var(--sidebar-w);padding-top:var(--topbar-h);min-height:100vh}
+.section-page{padding:28px 32px;display:none}
+.section-page.active{display:block}
+
+/* ── KPI CARDS ── */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:24px}
+.kpi-card{background:var(--white);border-radius:var(--radius);padding:22px 24px;border:1px solid var(--border);box-shadow:var(--shadow);position:relative;overflow:hidden;transition:var(--transition)}
+.kpi-card:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(30,58,138,0.12)}
+.kpi-card::before{content:'';position:absolute;top:0;right:0;width:100px;height:100px;border-radius:50%;opacity:0.06;transform:translate(30px,-30px)}
+.kpi-card.green::before{background:var(--primary)}
+.kpi-card.teal::before{background:#0ea5e9}
+.kpi-card.purple::before{background:#1D4ED8}
+.kpi-card.amber::before{background:#1E40AF}
+.kpi-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.kpi-icon.green{background:rgba(37,99,235,0.12)}
+.kpi-icon.teal{background:rgba(14,165,233,0.1)}
+.kpi-icon.purple{background:rgba(29,78,216,0.1)}
+.kpi-icon.amber{background:rgba(30,64,175,0.1)}
+.kpi-icon svg{width:22px;height:22px}
+.kpi-icon.green svg{color:var(--primary)}
+.kpi-icon.teal svg{color:#0ea5e9}
+.kpi-icon.purple svg{color:#1D4ED8}
+.kpi-icon.amber svg{color:#1E40AF}
+.kpi-label{font-size:0.78rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px}
+.kpi-value{font-family:'Outfit',sans-serif;font-size:1.85rem;font-weight:800;color:var(--text);line-height:1}
+.kpi-trend{display:flex;align-items:center;gap:4px;margin-top:8px;font-size:0.75rem;font-weight:600}
+.kpi-trend.up{color:#2563EB}
+.kpi-trend.down{color:#172554}
+.kpi-trend.neutral{color:var(--text-muted)}
+
+/* ── CHARTS ROW ── */
+.chart-row{display:grid;grid-template-columns:2fr 1fr;gap:20px;margin-bottom:24px}
+.chart-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-bottom:24px}
+.chart-row-2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px}
+.card{background:var(--white);border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden}
+.card-header{padding:20px 24px 0;display:flex;align-items:center;justify-content:space-between}
+.card-title{font-family:'Outfit',sans-serif;font-size:1rem;font-weight:700;color:var(--text)}
+.card-subtitle{font-size:0.75rem;color:var(--text-muted);margin-top:2px}
+.card-body{padding:20px 24px 24px}
+.chart-wrap{position:relative;height:220px}
+.chart-wrap-sm{position:relative;height:180px}
+.chart-wrap-lg{position:relative;height:280px}
+
+/* ── FILTER BAR ── */
+.filter-bar{display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.filter-select{appearance:none;background:var(--white);border:1px solid var(--border);border-radius:10px;padding:9px 36px 9px 14px;font-size:0.83rem;font-family:inherit;color:var(--text);cursor:pointer;outline:none;position:relative;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23475569'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;background-size:16px}
+.filter-btn{display:flex;align-items:center;gap:6px;padding:9px 18px;border-radius:10px;border:1px solid var(--border);background:var(--white);font-size:0.83rem;font-family:inherit;font-weight:600;color:var(--primary-dark);cursor:pointer;transition:var(--transition)}
+.filter-btn:hover,.filter-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.filter-btn svg{width:14px;height:14px}
+.date-range{display:flex;align-items:center;gap:6px;background:var(--white);border:1px solid var(--border);border-radius:10px;padding:9px 14px}
+.date-range input{border:none;background:transparent;font-size:0.83rem;font-family:inherit;color:var(--text);outline:none}
+.date-range span{color:var(--text-muted);font-size:0.8rem}
+
+/* ── TABLE ── */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:0.85rem}
+thead tr{border-bottom:2px solid var(--bg)}
+th{padding:11px 16px;text-align:left;font-size:0.72rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;white-space:nowrap}
+td{padding:13px 16px;color:var(--text);border-bottom:1px solid rgba(37,99,235,0.07);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(37,99,235,0.03)}
+.status-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:100px;font-size:0.72rem;font-weight:700}
+.status-badge::before{content:'';width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.badge-green{background:rgba(37,99,235,0.1);color:#2563EB}.badge-green::before{background:#2563EB}
+.badge-blue{background:rgba(14,165,233,0.1);color:#0284c7}.badge-blue::before{background:#0284c7}
+.badge-amber{background:rgba(30,64,175,0.1);color:#1E3A8A}.badge-amber::before{background:#1E40AF}
+.badge-red{background:rgba(23,37,84,0.1);color:#172554}.badge-red::before{background:#172554}
+.badge-purple{background:rgba(29,78,216,0.1);color:#1D4ED8}.badge-purple::before{background:#1D4ED8}
+.person-cell{display:flex;align-items:center;gap:10px}
+.person-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#93C5FD);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:#fff;flex-shrink:0}
+
+/* ── ACTIVITY FEED ── */
+.activity-feed{display:flex;flex-direction:column;gap:0}
+.activity-item{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid rgba(37,99,235,0.07);position:relative}
+.activity-item:last-child{border-bottom:none}
+.activity-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.activity-dot.green{background:var(--primary)}
+.activity-dot.blue{background:#0ea5e9}
+.activity-dot.amber{background:#1E40AF}
+.activity-dot.purple{background:#1D4ED8}
+.activity-dot.red{background:#172554}
+.activity-text{font-size:0.83rem;color:var(--text);line-height:1.45}
+.activity-time{font-size:0.72rem;color:var(--text-muted);margin-top:3px}
+
+/* ── WELCOME BANNER ── */
+.welcome-banner{background:linear-gradient(135deg,#1E3A8A 0%,#2563EB 50%,#172554 100%);border-radius:20px;padding:28px 32px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;position:relative;overflow:hidden}
+.welcome-banner::before{content:'';position:absolute;top:-60px;right:-60px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,0.06)}
+.welcome-banner::after{content:'';position:absolute;bottom:-40px;left:40%;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,0.04)}
+.welcome-text h2{font-family:'Outfit',sans-serif;font-size:1.5rem;font-weight:800;color:#fff;margin-bottom:6px}
+.welcome-text p{font-size:0.87rem;color:rgba(255,255,255,0.75)}
+.welcome-actions{display:flex;gap:12px;z-index:1}
+.btn-primary{display:inline-flex;align-items:center;gap:7px;background:#fff;color:var(--primary-dark);border:none;border-radius:10px;padding:10px 20px;font-size:0.85rem;font-weight:700;font-family:inherit;cursor:pointer;transition:var(--transition)}
+.btn-primary:hover{background:rgba(255,255,255,0.9);transform:translateY(-2px)}
+.btn-outline-white{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.35);border-radius:10px;padding:10px 20px;font-size:0.85rem;font-weight:600;font-family:inherit;cursor:pointer;backdrop-filter:blur(8px);transition:var(--transition);text-decoration:none}
+.btn-outline-white:hover{background:rgba(255,255,255,0.25)}
+.btn-action{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:10px;border:1px solid var(--border);background:var(--white);font-size:0.83rem;font-family:inherit;font-weight:600;color:var(--primary-dark);cursor:pointer;transition:var(--transition)}
+.btn-action:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.btn-action svg{width:15px;height:15px}
+
+/* ── METRIC CARDS ── */
+.metric-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}
+.metric-card{background:var(--white);border-radius:14px;border:1px solid var(--border);padding:18px 20px;box-shadow:var(--shadow)}
+.metric-title{font-size:0.78rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px}
+.metric-value{font-family:'Outfit',sans-serif;font-size:1.6rem;font-weight:800;color:var(--text)}
+.metric-unit{font-size:0.75rem;color:var(--text-muted);margin-left:4px}
+.metric-status{display:flex;align-items:center;gap:5px;margin-top:6px;font-size:0.75rem;font-weight:600}
+.metric-status.normal{color:#2563EB}
+.metric-status.warning{color:#1E3A8A}
+.metric-status.high{color:#172554}
+
+/* ── PROGRESS BAR ── */
+.progress-bar-wrap{margin-top:8px}
+.progress-label{display:flex;justify-content:space-between;font-size:0.75rem;color:var(--text-muted);margin-bottom:5px}
+.progress-bar{height:6px;border-radius:100px;background:rgba(37,99,235,0.1);overflow:hidden}
+.progress-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--primary),#93C5FD)}
+
+/* ── SECTION HEADER ── */
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
+.section-header h2{font-family:'Outfit',sans-serif;font-size:1.5rem;font-weight:800;color:var(--text)}
+.section-header p{font-size:0.85rem;color:var(--text-muted);margin-top:2px}
+
+/* ── TIMELINE ── */
+.timeline{position:relative;padding-left:28px}
+.timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;background:var(--border)}
+.timeline-item{position:relative;margin-bottom:24px}
+.timeline-dot{position:absolute;left:-24px;top:4px;width:14px;height:14px;border-radius:50%;border:2px solid var(--white);box-shadow:0 0 0 2px var(--primary)}
+.timeline-dot.green{background:var(--primary)}
+.timeline-dot.blue{background:#0ea5e9}
+.timeline-dot.amber{background:#1E40AF}
+.timeline-dot.red{background:#172554}
+.timeline-date{font-size:0.72rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px}
+.timeline-title{font-size:0.9rem;font-weight:700;color:var(--text);margin-bottom:3px}
+.timeline-desc{font-size:0.82rem;color:var(--text-muted);line-height:1.5}
+
+/* ── HAMBURGER MOBILE ── */
+.menu-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--primary-dark);
+}
+.menu-toggle:hover { background: var(--bg); }
+.menu-toggle svg { width: 20px; height: 20px; }
+
+/* ── SIDEBAR CLOSE BUTTON ── */
+.sidebar-close {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #fff;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+.sidebar-close:hover { background: rgba(255, 255, 255, 0.2); color: #fff; }
+.sidebar-close svg { width: 18px; height: 18px; }
+
+/* ── EMPTY STATE ── */
+.empty-state{text-align:center;padding:40px 20px;color:var(--text-muted)}
+.empty-state svg{width:48px;height:48px;margin:0 auto 12px;color:var(--border)}
+.empty-state p{font-size:0.88rem}
+
+/* ── OVERLAY ── */
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:99}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1100px){.kpi-grid{grid-template-columns:repeat(2,1fr)}.chart-row{grid-template-columns:1fr}.chart-row-3{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%); width: 280px;}
+  .sidebar.open{transform:translateX(0)}
+  .sidebar-overlay{display:none}
+  .sidebar-overlay.active{display:block}
+  .main{margin-left:0; padding-top: 80px;}
+  .topbar{left:0; height: 80px; padding: 0 16px; display: flex; align-items: center; justify-content: space-between;}
+  .menu-toggle{display:flex;}
+  .sidebar-close{display:flex;}
+  .sidebar-logo { display: flex; align-items: center; justify-content: space-between; padding: 20px 18px; }
+  .kpi-grid{grid-template-columns:1fr 1fr}
+  .chart-row{grid-template-columns:1fr}
+  .chart-row-3{grid-template-columns:1fr}
+  .chart-row-2{grid-template-columns:1fr}
+  .metric-row{grid-template-columns:1fr 1fr}
+  .section-page{padding:20px 16px}
+  .welcome-banner{flex-direction:column;gap:20px;align-items:flex-start}
+  .filter-bar{gap:8px}
+  .topbar-subtitle { display: none; }
+  .topbar-search { display: none; }
+  .topbar-date-filter { display: none; }
+}
+@media(max-width:480px){
+  .kpi-grid{grid-template-columns:1fr}
+  .metric-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <a href="dashboard.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2 4 5v6c0 5.2 3.4 9.7 8 11 4.6-1.3 8-5.8 8-11V5l-8-3z"/><polyline points="9 12 11 14 15 10"/></svg>
+      <span class="sidebar-logo-text">Stackly Compliance</span>
+    </a>
+    <button class="sidebar-close" id="sidebarClose" aria-label="Close Sidebar">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="sidebar-user" onclick="window.location.href='404.html'" style="cursor:pointer" title="View Profile">
+    <div class="sidebar-avatar" id="sidebarAvatarLetter">C</div>
+    <div class="sidebar-user-info">
+      <div class="sidebar-user-name" id="sidebarUserName">Compliance Officer</div>
+      <div class="sidebar-user-email" id="sidebarUserEmail">Loading...</div>
+      <span class="sidebar-role-badge">Admin</span>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="sidebar-section-title">Main Menu</div>
+    <div class="nav-item active" data-section="overview">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Overview
+    </div>
+    <div class="nav-item" data-section="audits">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Audits & Assessments
+      <span class="nav-badge">3</span>
+    </div>
+    <div class="nav-item" data-section="policies">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      Policies & Documents
+    </div>
+    <div class="nav-item" data-section="risk">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Risk Metrics
+    </div>
+    <div class="nav-item" data-section="actions">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Corrective Actions
+      <span class="nav-badge">5</span>
+    </div>
+  </nav>
+
+  <div class="nav-logout">
+    <a href="login.html">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Logout
+    </a>
+  </div>
+</aside>
+
+<!-- TOPBAR -->
+<div class="topbar" id="topbar">
+  <div class="topbar-left" style="display:flex;align-items:center;gap:12px;">
+    <button class="menu-toggle" id="menuToggle" aria-label="Open Navigation Menu">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <div>
+      <div class="page-title" id="topbarTitle" style="line-height:1.2;">Overview</div>
+      <div class="page-subtitle" id="topbarSubtitle">Welcome back! Here's your compliance summary.</div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <div class="topbar-search">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" placeholder="Search anything...">
+    </div>
+    <div class="topbar-date-filter">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <input type="date" id="topbarDate">
+    </div>
+    <div class="notif-btn" onclick="window.location.href='404.html'" style="cursor:pointer" title="Notifications">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <span class="notif-dot"></span>
+    </div>
+    <div class="topbar-avatar" id="topbarAvatarLetter" onclick="window.location.href='404.html'" style="cursor:pointer" title="Profile">C</div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+<!-- ── 1. OVERVIEW ── -->
+<section class="section-page active" id="sec-overview">
+  <div class="welcome-banner">
+    <div class="welcome-text">
+      <h2>Good morning, <span id="welcomeName">Compliance Officer</span>! <i class="fa-regular fa-face-smile" style="color: #93C5FD; margin-left: 5px;"></i></h2>
+      <p>Your organization is 94% compliant. You have 3 audits scheduled this week.</p>
+    </div>
+    <div class="welcome-actions">
+      <a href="404.html" class="btn-outline-white">View Audits</a>
+      <a href="404.html" class="btn-primary">Schedule Audit</a>
+    </div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card green">
+      <div class="kpi-icon green"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+      <div class="kpi-label">Next Audit</div>
+      <div class="kpi-value">Jul 14</div>
+      <div class="kpi-trend neutral">SOC 2 Type II · 10:00 AM</div>
+    </div>
+    <div class="kpi-card teal">
+      <div class="kpi-icon teal"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+      <div class="kpi-label">Open Findings</div>
+      <div class="kpi-value">7</div>
+      <div class="kpi-trend down"><i class="fa-solid fa-arrow-down" style="margin-right: 4px;"></i> 2 high severity</div>
+    </div>
+    <div class="kpi-card purple">
+      <div class="kpi-icon purple"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+      <div class="kpi-label">Compliance Score</div>
+      <div class="kpi-value">94<span style="font-size:1rem">/100</span></div>
+      <div class="kpi-trend up"><i class="fa-solid fa-arrow-up" style="margin-right: 4px;"></i> +2 from last month</div>
+    </div>
+    <div class="kpi-card amber">
+      <div class="kpi-icon amber"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+      <div class="kpi-label">Policies Pending Review</div>
+      <div class="kpi-value">4</div>
+      <div class="kpi-trend neutral">Due in 5 days</div>
+    </div>
+  </div>
+
+  <div class="chart-row">
+    <div class="card">
+      <div class="card-header">
+        <div><div class="card-title">Compliance Score Trend</div><div class="card-subtitle">Last 6 months — Overall score & open findings</div></div>
+        <select class="filter-select" id="scoreRangeSelect" style="font-size:0.78rem">
+          <option value="6m">6 Months</option><option value="3m">3 Months</option><option value="1y">1 Year</option>
+        </select>
+      </div>
+      <div class="card-body"><div class="chart-wrap"><canvas id="scoreChart"></canvas></div></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div><div class="card-title">Risk Overview</div><div class="card-subtitle">Current posture breakdown</div></div></div>
+      <div class="card-body"><div class="chart-wrap"><canvas id="riskDonut"></canvas></div></div>
+    </div>
+  </div>
+
+  <div class="chart-row-2">
+    <div class="card">
+      <div class="card-header"><div class="card-title">Recent Activity</div></div>
+      <div class="card-body">
+        <div class="activity-feed">
+          <div class="activity-item"><div class="activity-dot green"></div><div><div class="activity-text"><strong>Audit report received</strong> — ISO 27001 surveillance audit report is ready</div><div class="activity-time">Today, 9:30 AM</div></div></div>
+          <div class="activity-item"><div class="activity-dot blue"></div><div><div class="activity-text"><strong>Audit scheduled</strong> — SOC 2 Type II on Jul 14, 10:00 AM</div><div class="activity-time">Yesterday, 3:15 PM</div></div></div>
+          <div class="activity-item"><div class="activity-dot red"></div><div><div class="activity-text"><strong>New finding logged</strong> — Access review overdue for 3 privileged accounts</div><div class="activity-time">Jul 5, 11:20 AM</div></div></div>
+          <div class="activity-item"><div class="activity-dot amber"></div><div><div class="activity-text"><strong>Policy updated</strong> — Data Retention Policy v3.2 published</div><div class="activity-time">Jul 3, 4:00 PM</div></div></div>
+          <div class="activity-item"><div class="activity-dot purple"></div><div><div class="activity-text"><strong>Training reminder</strong> — Security awareness training due next month</div><div class="activity-time">Jul 1, 8:00 AM</div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">Upcoming Audits</div></div>
+      <div class="card-body">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Audit</th><th>Date</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td><div class="person-cell"><div class="person-avatar">SC</div>SOC 2 Type II</div></td><td>Jul 14, 10 AM</td><td><span class="status-badge badge-green">Confirmed</span></td></tr>
+              <tr><td><div class="person-cell"><div class="person-avatar">HI</div>HIPAA Assessment</div></td><td>Jul 19, 2 PM</td><td><span class="status-badge badge-blue">Scheduled</span></td></tr>
+              <tr><td><div class="person-cell"><div class="person-avatar">IS</div>ISO 27001 Review</div></td><td>Jul 28, 4 PM</td><td><span class="status-badge badge-amber">Pending</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 2. AUDITS & ASSESSMENTS ── -->
+<section class="section-page" id="sec-audits">
+  <div class="section-header">
+    <div><h2>Audits & Assessments</h2><p>Manage all scheduled and past audits</p></div>
+    <a href="404.html" class="btn-action"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Schedule New</a>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card green"><div class="kpi-icon green"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div><div class="kpi-label">Total Audits</div><div class="kpi-value">28</div><div class="kpi-trend up"><i class="fa-solid fa-arrow-up" style="margin-right: 4px;"></i> This year</div></div>
+    <div class="kpi-card teal"><div class="kpi-icon teal"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="kpi-label">Upcoming</div><div class="kpi-value">3</div><div class="kpi-trend neutral">Next: Jul 14</div></div>
+    <div class="kpi-card purple"><div class="kpi-icon purple"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><div class="kpi-label">Passed</div><div class="kpi-value">24</div><div class="kpi-trend up"><i class="fa-solid fa-arrow-up" style="margin-right: 4px;"></i> 85.7% pass rate</div></div>
+    <div class="kpi-card amber"><div class="kpi-icon amber"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div><div class="kpi-label">Failed</div><div class="kpi-value">1</div><div class="kpi-trend down">1 this year</div></div>
+  </div>
+
+  <div class="filter-bar">
+    <select class="filter-select"><option>All Status</option><option>Confirmed</option><option>Pending</option><option>Completed</option><option>Failed</option></select>
+    <select class="filter-select"><option>All Frameworks</option><option>SOC 2</option><option>ISO 27001</option><option>HIPAA</option><option>GDPR</option></select>
+    <div class="date-range"><input type="date" id="audFrom"><span>to</span><input type="date" id="audTo"></div>
+    <a href="404.html" class="filter-btn active">Apply</a>
+    <a href="404.html" class="filter-btn">Reset</a>
+  </div>
+
+  <div class="chart-row-2" style="margin-bottom:20px">
+    <div class="card">
+      <div class="card-header"><div class="card-title">Audits by Month</div></div>
+      <div class="card-body"><div class="chart-wrap"><canvas id="audMonthChart"></canvas></div></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">Audit Status</div></div>
+      <div class="card-body"><div class="chart-wrap"><canvas id="audStatusChart"></canvas></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Audit History</div></div>
+    <div class="card-body">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Audit</th><th>Framework</th><th>Date & Time</th><th>Type</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody>
+            <tr><td>#001</td><td><div class="person-cell"><div class="person-avatar">SC</div>SOC 2 Type II</div></td><td>SOC 2</td><td>Jul 14, 10:00 AM</td><td>On-Site</td><td><span class="status-badge badge-green">Confirmed</span></td><td><a href="404.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">View</a></td></tr>
+            <tr><td>#002</td><td><div class="person-cell"><div class="person-avatar">HI</div>HIPAA Assessment</div></td><td>HIPAA</td><td>Jul 19, 2:00 PM</td><td>Remote</td><td><span class="status-badge badge-blue">Scheduled</span></td><td><a href="404.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">View</a></td></tr>
+            <tr><td>#003</td><td><div class="person-cell"><div class="person-avatar">IS</div>ISO 27001 Review</div></td><td>ISO 27001</td><td>Jul 28, 4:00 PM</td><td>On-Site</td><td><span class="status-badge badge-amber">Pending</span></td><td><a href="404.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">View</a></td></tr>
+            <tr><td>#004</td><td><div class="person-cell"><div class="person-avatar">GD</div>GDPR Data Mapping</td></td><td>GDPR</td><td>Jun 22, 11:30 AM</td><td>On-Site</td><td><span class="status-badge badge-green">Completed</span></td><td><a href="404.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">View</a></td></tr>
+            <tr><td>#005</td><td><div class="person-cell"><div class="person-avatar">PC</div>PCI DSS Scan</div></td><td>PCI DSS</td><td>Jun 10, 3:00 PM</td><td>Remote</td><td><span class="status-badge badge-green">Completed</span></td><td><a href="404.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">View</a></td></tr>
+            <tr><td>#006</td><td><div class="person-cell"><div class="person-avatar">SC</div>SOC 2 Type I</div></td><td>SOC 2</td><td>May 18, 9:00 AM</td><td>On-Site</td><td><span class="status-badge badge-red">Failed</span></td><td><a href="404.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">Remediate</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 3. POLICIES & DOCUMENTS ── -->
+<section class="section-page" id="sec-policies">
+  <div class="section-header">
+    <div><h2>Policies & Documents</h2><p>Your complete policy library & evidence history</p></div>
+    <a href="404.html" class="btn-action"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Export Library</a>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card green"><div class="kpi-icon green"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div><div class="kpi-label">Total Documents</div><div class="kpi-value">47</div><div class="kpi-trend up"><i class="fa-solid fa-arrow-up" style="margin-right: 4px;"></i> 3 new this month</div></div>
+    <div class="kpi-card teal"><div class="kpi-icon teal"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg></div><div class="kpi-label">Evidence Items</div><div class="kpi-value">18</div><div class="kpi-trend neutral">2 pending review</div></div>
+    <div class="kpi-card purple"><div class="kpi-icon purple"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="kpi-label">Active Policies</div><div class="kpi-value">21</div><div class="kpi-trend up"><i class="fa-solid fa-arrow-up" style="margin-right: 4px;"></i> All current</div></div>
+    <div class="kpi-card amber"><div class="kpi-icon amber"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="kpi-label">Exceptions Noted</div><div class="kpi-value">3</div><div class="kpi-trend down">Access control, Vendor, Backup</div></div>
+  </div>
+
+  <div class="chart-row-2">
+    <div class="card">
+      <div class="card-header"><div class="card-title">Active Policies</div></div>
+      <div class="card-body">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Policy</th><th>Version</th><th>Owner</th><th>Reviewer</th><th>Next Review</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Information Security Policy</td><td>v4.1</td><td>Security Team</td><td>J. Alvarez</td><td>Aug 5, 2026</td><td><span class="status-badge badge-green">Active</span></td></tr>
+              <tr><td>Data Retention Policy</td><td>v3.2</td><td>Legal Team</td><td>J. Alvarez</td><td>Sep 1, 2026</td><td><span class="status-badge badge-green">Active</span></td></tr>
+              <tr><td>Vendor Risk Policy</td><td>v2.0</td><td>Procurement</td><td>R. Osei</td><td>Dec 31, 2026</td><td><span class="status-badge badge-green">Active</span></td></tr>
+              <tr><td>Incident Response Plan</td><td>v5.4</td><td>Security Team</td><td>J. Alvarez</td><td>Oct 15, 2026</td><td><span class="status-badge badge-amber">Review Soon</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">Policy & Audit Timeline</div></div>
+      <div class="card-body">
+        <div class="timeline">
+          <div class="timeline-item"><div class="timeline-dot green"></div><div class="timeline-date">June 2026</div><div class="timeline-title">Annual Risk Assessment</div><div class="timeline-desc">Enterprise-wide risk assessment completed. Residual risk within tolerance; two moderate items tracked.</div></div>
+          <div class="timeline-item"><div class="timeline-dot blue"></div><div class="timeline-date">March 2026</div><div class="timeline-title">SOC 2 Type I Audit</div><div class="timeline-desc">Independent auditor issued a clean report. Access review cadence tightened to quarterly.</div></div>
+          <div class="timeline-item"><div class="timeline-dot red"></div><div class="timeline-date">Dec 2025</div><div class="timeline-title">Vendor Data Exposure Finding</div><div class="timeline-desc">Third-party vendor flagged for insufficient encryption at rest. Remediation plan agreed and closed.</div></div>
+          <div class="timeline-item"><div class="timeline-dot green"></div><div class="timeline-date">Sep 2025</div><div class="timeline-title">Security Awareness Training — Q3</div><div class="timeline-desc">Company-wide training completed with 98% participation.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Findings & Evidence</div><a href="404.html" class="btn-action" style="font-size:0.78rem;padding:7px 14px">View All</a></div>
+    <div class="card-body">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Item</th><th>Date</th><th>Result</th><th>Requirement</th><th>Status</th><th>Owner</th></tr></thead>
+          <tbody>
+            <tr><td>Access Review — Privileged Accounts</td><td>Jun 28, 2026</td><td>3 stale accounts</td><td>0 stale accounts</td><td><span class="status-badge badge-amber">High</span></td><td>J. Alvarez</td></tr>
+            <tr><td>Encryption at Rest — Prod DB</td><td>Jun 28, 2026</td><td>AES-256</td><td>AES-256 required</td><td><span class="status-badge badge-green">Normal</span></td><td>J. Alvarez</td></tr>
+            <tr><td>Backup Restore Test</td><td>Jul 1, 2026</td><td>92% success</td><td>100% success</td><td><span class="status-badge badge-amber">Borderline</span></td><td>R. Osei</td></tr>
+            <tr><td>MFA Coverage</td><td>Jun 15, 2026</td><td>100%</td><td>100% required</td><td><span class="status-badge badge-green">Normal</span></td><td>R. Osei</td></tr>
+            <tr><td>Vendor Questionnaire — Q3</td><td>Jul 6, 2026</td><td>Pending</td><td>Complete by Q3</td><td><span class="status-badge badge-blue">Pending</span></td><td>J. Alvarez</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 4. RISK METRICS ── -->
+<section class="section-page" id="sec-risk">
+  <div class="section-header">
+    <div><h2>Risk Metrics</h2><p>Track risk posture and control trends over time</p></div>
+    <div style="display:flex;gap:10px">
+      <select class="filter-select"><option>Last 6 Months</option><option>Last 3 Months</option><option>Last Year</option></select>
+      <a href="404.html" class="btn-action"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Export</a>
+    </div>
+  </div>
+
+  <div class="metric-row">
+    <div class="metric-card"><div class="metric-title">Overall Risk Score</div><div class="metric-value">28<span class="metric-unit">/100</span></div><div class="metric-status warning"><i class="fa-solid fa-triangle-exclamation" style="margin-right: 4px;"></i> Moderate — trending down</div><div class="progress-bar-wrap"><div class="progress-label"><span>Score</span><span>28/100</span></div><div class="progress-bar"><div class="progress-fill" style="width:28%"></div></div></div></div>
+    <div class="metric-card"><div class="metric-title">Control Pass Rate</div><div class="metric-value">96<span class="metric-unit">%</span></div><div class="metric-status normal"><i class="fa-solid fa-circle-check" style="margin-right: 4px;"></i> Above target</div><div class="progress-bar-wrap"><div class="progress-label"><span>Passing</span><span>96/100</span></div><div class="progress-bar"><div class="progress-fill" style="width:96%"></div></div></div></div>
+    <div class="metric-card"><div class="metric-title">Training Completion</div><div class="metric-value">91<span class="metric-unit">%</span></div><div class="metric-status normal"><i class="fa-solid fa-circle-check" style="margin-right: 4px;"></i> On track for Q3</div><div class="progress-bar-wrap"><div class="progress-label"><span>Completed</span><span>91/100</span></div><div class="progress-bar"><div class="progress-fill" style="width:91%"></div></div></div></div>
+  </div>
+
+  <div class="chart-row-2">
+    <div class="card"><div class="card-header"><div class="card-title">Risk Score Trend</div><div class="card-subtitle">Overall risk score — Last 6 months</div></div><div class="card-body"><div class="chart-wrap"><canvas id="riskChart"></canvas></div></div></div>
+    <div class="card"><div class="card-header"><div class="card-title">Findings Opened vs Closed</div><div class="card-subtitle">Last 6 months</div></div><div class="card-body"><div class="chart-wrap"><canvas id="findingsChart"></canvas></div></div></div>
+  </div>
+
+  <div class="chart-row-3">
+    <div class="card"><div class="card-header"><div class="card-title">Vendor Risk</div></div><div class="card-body"><div class="chart-wrap-sm"><canvas id="vendorChart"></canvas></div></div></div>
+    <div class="card"><div class="card-header"><div class="card-title">Control Pass Rate</div></div><div class="card-body"><div class="chart-wrap-sm"><canvas id="controlChart"></canvas></div></div></div>
+    <div class="card"><div class="card-header"><div class="card-title">Training Completion</div></div><div class="card-body"><div class="chart-wrap-sm"><canvas id="trainingChart"></canvas></div></div></div>
+  </div>
+</section>
+
+<!-- ── 5. CORRECTIVE ACTIONS ── -->
+<section class="section-page" id="sec-actions">
+  <div class="section-header">
+    <div><h2>Corrective Actions</h2><p>Track remediation, findings and severity over time</p></div>
+    <a href="404.html" class="btn-action"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download All</a>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card amber"><div class="kpi-icon amber"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="kpi-label">Open Corrective Actions</div><div class="kpi-value">5</div><div class="kpi-trend down"><i class="fa-solid fa-arrow-down" style="margin-right: 4px;"></i> Due by Jul 20</div></div>
+    <div class="kpi-card green"><div class="kpi-icon green"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div><div class="kpi-label">Resolved (2026)</div><div class="kpi-value">31</div><div class="kpi-trend up"><i class="fa-solid fa-arrow-up" style="margin-right: 4px;"></i> 9 this quarter</div></div>
+    <div class="kpi-card teal"><div class="kpi-icon teal"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="kpi-label">On-Time Closure Rate</div><div class="kpi-value">88%</div><div class="kpi-trend neutral">Target: 90%</div></div>
+    <div class="kpi-card purple"><div class="kpi-icon purple"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div><div class="kpi-label">Total Findings (2026)</div><div class="kpi-value">36</div><div class="kpi-trend neutral">5 outstanding</div></div>
+  </div>
+
+  <div class="chart-row-2">
+    <div class="card"><div class="card-header"><div class="card-title">Monthly Findings</div><div class="card-subtitle">Opened vs remediation cost — 2026</div></div><div class="card-body"><div class="chart-wrap"><canvas id="monthlyFindingsChart"></canvas></div></div></div>
+    <div class="card"><div class="card-header"><div class="card-title">Severity Breakdown</div></div><div class="card-body"><div class="chart-wrap"><canvas id="severityDonut"></canvas></div></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Corrective Action History</div></div>
+    <div class="card-body">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Action ID</th><th>Date</th><th>Description</th><th>Severity</th><th>Owner</th><th>Due</th><th>Status</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td>#CA-089</td><td>Jul 1, 2026</td><td>Stale privileged access accounts</td><td><span class="status-badge badge-amber">High</span></td><td>J. Alvarez</td><td>Jul 20</td><td><span class="status-badge badge-amber">Open</span></td><td><a href="404.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">Remediate</a></td></tr>
+            <tr><td>#CA-082</td><td>Jun 22, 2026</td><td>Backup restore success below target</td><td><span class="status-badge badge-blue">Medium</span></td><td>R. Osei</td><td>Jul 10</td><td><span class="status-badge badge-green">Resolved</span></td><td><a href="404.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">Report</a></td></tr>
+            <tr><td>#CA-074</td><td>Jun 10, 2026</td><td>Vendor questionnaire overdue</td><td><span class="status-badge badge-purple">Low</span></td><td>J. Alvarez</td><td>Jun 30</td><td><span class="status-badge badge-green">Resolved</span></td><td><a href="404.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">Report</a></td></tr>
+            <tr><td>#CA-065</td><td>May 18, 2026</td><td>Encryption gap on legacy storage volume</td><td><span class="status-badge badge-red">Critical</span></td><td>R. Osei</td><td>Jun 1</td><td><span class="status-badge badge-green">Resolved</span></td><td><a href="404.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">Report</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script>
+// ── Read email from localStorage ──
+// Try to get email from localStorage with multiple possible keys
+let email = localStorage.getItem('stacklyUserEmail');
+
+// If not found, try alternative keys
+if (!email) {
+    email = localStorage.getItem('userEmail');
+}
+if (!email) {
+    email = localStorage.getItem('email');
+}
+if (!email) {
+    // If still no email, use a default with a clear indicator
+    email = 'user@example.com';
+    // Optionally set it so it persists
+    localStorage.setItem('stacklyUserEmail', email);
+}
+
+// Parse name from email
+const name = email.split('@')[0].charAt(0).toUpperCase() + email.split('@')[0].slice(1);
+const initial = email.charAt(0).toUpperCase();
+
+// Update all UI elements with the user's info
+document.getElementById('sidebarUserEmail').textContent = email;
+document.getElementById('sidebarUserName').textContent = name;
+document.getElementById('sidebarAvatarLetter').textContent = initial;
+document.getElementById('topbarAvatarLetter').textContent = initial;
+document.getElementById('welcomeName').textContent = name;
+
+// Update the welcome message subtitle with user email
+const welcomeSubtitle = document.querySelector('.welcome-text p');
+if (welcomeSubtitle) {
+    welcomeSubtitle.textContent = `Logged in as ${email} · Your organization is 94% compliant. You have 3 audits scheduled this week.`;
+}
+
+// Set today's date in topbar
+document.getElementById('topbarDate').value = new Date().toISOString().split('T')[0];
+
+// ── Section Navigation ──
+const navItems = document.querySelectorAll('.nav-item[data-section]');
+const pages = document.querySelectorAll('.section-page');
+const titles = {
+  overview: ['Overview', 'Welcome back! Here\'s your compliance summary.'],
+  audits: ['Audits & Assessments', 'Manage your scheduled and past audits'],
+  policies: ['Policies & Documents', 'Your complete policy library & evidence history'],
+  risk: ['Risk Metrics', 'Track risk posture and control trends'],
+  actions: ['Corrective Actions', 'Track remediation, findings and severity']
+};
+
+function showSection(id) {
+  pages.forEach(p => p.classList.remove('active'));
+  navItems.forEach(n => n.classList.remove('active'));
+  document.getElementById('sec-' + id).classList.add('active');
+  document.querySelector('[data-section="' + id + '"]').classList.add('active');
+  document.getElementById('topbarTitle').textContent = titles[id][0];
+  document.getElementById('topbarSubtitle').textContent = titles[id][1];
+  if (window.innerWidth <= 768) closeSidebar();
+}
+
+navItems.forEach(item => {
+  item.addEventListener('click', () => showSection(item.dataset.section));
+});
+
+// ── Mobile Sidebar ──
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('sidebarOverlay');
+const toggle = document.getElementById('menuToggle');
+const closeBtn = document.getElementById('sidebarClose');
+
+function closeSidebar() {
+  sidebar.classList.remove('open');
+  overlay.classList.remove('active');
+}
+
+if (toggle) {
+  toggle.addEventListener('click', () => {
+    sidebar.classList.add('open');
+    overlay.classList.add('active');
+  });
+}
+if (closeBtn) {
+  closeBtn.addEventListener('click', closeSidebar);
+}
+overlay.addEventListener('click', closeSidebar);
+
+// ── Chart.js Defaults ──
+Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
+Chart.defaults.font.size = 11;
+Chart.defaults.color = '#475569';
+
+const months = ['Feb','Mar','Apr','May','Jun','Jul'];
+const green = '#2563EB', dark = '#1E3A8A', teal = '#0ea5e9', purple = '#1D4ED8', amber = '#1E40AF';
+const gA = ctx => { const g = ctx.createLinearGradient(0,0,0,300); g.addColorStop(0,'rgba(37,99,235,0.22)'); g.addColorStop(1,'rgba(37,99,235,0)'); return g; };
+const bA = ctx => { const g = ctx.createLinearGradient(0,0,0,300); g.addColorStop(0,'rgba(14,165,233,0.18)'); g.addColorStop(1,'rgba(14,165,233,0)'); return g; };
+
+// ── Compliance Score Trend — dynamic period switcher ──
+const scoreData = {
+  '6m': {
+    subtitle: 'Last 6 months — Overall score & open findings',
+    labels: ['Feb','Mar','Apr','May','Jun','Jul'],
+    score: [86, 88, 90, 87, 92, 94],
+    findings: [11, 9, 8, 10, 8, 7]
+  },
+  '3m': {
+    subtitle: 'Last 3 months — Overall score & open findings',
+    labels: ['May','Jun','Jul'],
+    score: [87, 92, 94],
+    findings: [10, 8, 7]
+  },
+  '1y': {
+    subtitle: 'Last 12 months — Overall score & open findings',
+    labels: ['Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr','May','Jun','Jul'],
+    score: [79, 81, 82, 84, 83, 85, 86, 88, 90, 87, 92, 94],
+    findings: [15, 14, 13, 12, 13, 12, 11, 9, 8, 10, 8, 7]
+  }
+};
+
+const scoreChart = new Chart(document.getElementById('scoreChart'), {
+  type: 'line',
+  data: {
+    labels: scoreData['6m'].labels,
+    datasets: [
+      { label: 'Compliance Score', data: scoreData['6m'].score, borderColor: green, backgroundColor: ctx => gA(ctx.chart.ctx), borderWidth: 2.5, tension: 0.4, fill: true, pointBackgroundColor: green, pointRadius: 4, pointHoverRadius: 6 },
+      { label: 'Open Findings',  data: scoreData['6m'].findings, borderColor: teal,  backgroundColor: ctx => bA(ctx.chart.ctx), borderWidth: 2.5, tension: 0.4, fill: true, pointBackgroundColor: teal,  pointRadius: 4, pointHoverRadius: 6 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom' }, tooltip: { mode: 'index', intersect: false } },
+    scales: { y: { grid: { color: 'rgba(0,0,0,0.04)' } } },
+    animation: { duration: 600, easing: 'easeInOutQuart' }
+  }
+});
+
+document.getElementById('scoreRangeSelect').addEventListener('change', function() {
+  const d = scoreData[this.value];
+  scoreChart.data.labels = d.labels;
+  scoreChart.data.datasets[0].data = d.score;
+  scoreChart.data.datasets[1].data = d.findings;
+  const sub = document.querySelector('#sec-overview .card-subtitle');
+  if (sub) sub.textContent = d.subtitle;
+  scoreChart.update();
+});
+
+// Risk Donut
+new Chart(document.getElementById('riskDonut'), {
+  type: 'doughnut',
+  data: { labels: ['Low','Moderate','Elevated','Critical'],
+    datasets: [{ data: [48,38,11,3], backgroundColor: ['#2563EB', green, amber, '#172554'], borderWidth: 0, hoverOffset: 6 }]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { label: c => c.label + ': ' + c.raw + '%' } } }, cutout: '68%' }
+});
+
+// Audits by Month
+new Chart(document.getElementById('audMonthChart'), {
+  type: 'bar',
+  data: { labels: months,
+    datasets: [{ label: 'Audits', data: [3,5,4,6,4,3], backgroundColor: green + 'cc', borderRadius: 8, borderSkipped: false }]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.04)' } } } }
+});
+
+// Audit Status Doughnut
+new Chart(document.getElementById('audStatusChart'), {
+  type: 'doughnut',
+  data: { labels: ['Passed','Upcoming','Failed'],
+    datasets: [{ data: [24,3,1], backgroundColor: [green, teal, '#172554'], borderWidth: 0, hoverOffset: 6 }]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } }, cutout: '65%' }
+});
+
+// Risk Score Trend
+new Chart(document.getElementById('riskChart'), {
+  type: 'line',
+  data: { labels: months,
+    datasets: [
+      { label: 'Risk Score', data: [38,35,33,36,30,28], borderColor: '#172554', backgroundColor: 'rgba(23,37,84,0.08)', borderWidth: 2.5, tension: 0.4, fill: true, pointRadius: 4 },
+      { label: 'Target', data: [30,30,30,30,30,30], borderColor: purple, backgroundColor: 'rgba(29,78,216,0.05)', borderWidth: 2, borderDash: [6,4], tension: 0, fill: false, pointRadius: 0 }
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } }, scales: { y: { grid: { color: 'rgba(0,0,0,0.04)' } } } }
+});
+
+// Findings Opened vs Closed
+new Chart(document.getElementById('findingsChart'), {
+  type: 'bar',
+  data: { labels: months, datasets: [
+      { label: 'Opened', data: [7,6,5,8,4,3], backgroundColor: amber + 'cc', borderRadius: 6, borderSkipped: false },
+      { label: 'Closed', data: [5,7,6,6,6,5], backgroundColor: green + 'cc', borderRadius: 6, borderSkipped: false }
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } }, scales: { y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.04)' } } } }
+});
+
+// Vendor Risk
+new Chart(document.getElementById('vendorChart'), {
+  type: 'bar',
+  data: { labels: months, datasets: [{ label: 'Vendors Reviewed', data: [12,14,15,15,17,18], backgroundColor: teal + 'cc', borderRadius: 6, borderSkipped: false }] },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { grid: { color: 'rgba(0,0,0,0.04)' } } } }
+});
+
+// Control Pass Rate
+new Chart(document.getElementById('controlChart'), {
+  type: 'line',
+  data: { labels: months, datasets: [{ label: 'Pass Rate (%)', data: [90,92,93,91,95,96], borderColor: green, backgroundColor: 'rgba(37,99,235,0.1)', borderWidth: 2.5, tension: 0.4, fill: true, pointRadius: 4 }] },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { min: 80, grid: { color: 'rgba(0,0,0,0.04)' } } } }
+});
+
+// Training Completion
+new Chart(document.getElementById('trainingChart'), {
+  type: 'bar',
+  data: { labels: ['Security','Privacy','Compliance','Phishing','Onboarding'], datasets: [{ label: 'Completion %', data: [91,88,94,97,100], backgroundColor: purple + 'cc', borderRadius: 6, borderSkipped: false }] },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { min: 60, max: 100, grid: { color: 'rgba(0,0,0,0.04)' } } } }
+});
+
+// Monthly Findings + cost
+new Chart(document.getElementById('monthlyFindingsChart'), {
+  type: 'bar',
+  data: { labels: months, datasets: [
+      { label: 'Findings Opened', data: [7,6,5,8,4,3], backgroundColor: amber + 'cc', borderRadius: 6, borderSkipped: false },
+      { label: 'Findings Closed', data: [5,7,6,6,6,5], backgroundColor: green + 'cc', borderRadius: 6, borderSkipped: false }
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } }, scales: { y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.04)' } } } }
+});
+
+// Severity Donut
+new Chart(document.getElementById('severityDonut'), {
+  type: 'doughnut',
+  data: { labels: ['Critical','High','Medium','Low'],
+    datasets: [{ data: [8,22,35,35], backgroundColor: ['#172554', amber, teal, green], borderWidth: 0, hoverOffset: 6 }]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } }, cutout: '65%' }
+});
+</script>
+</body>
+</html>
