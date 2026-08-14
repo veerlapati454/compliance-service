@@ -121,6 +121,7 @@
 .ctc-info-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
+    align-items: stretch;
     gap: 24px;
 }
 
@@ -133,6 +134,9 @@
     transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
     opacity: 0;
     transform: translateY(24px);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .ctc-info-card.card-visible { opacity: 1; transform: translateY(0); }
@@ -143,6 +147,7 @@
 }
 
 .ctc-info-icon {
+    flex-shrink: 0;
     width: 50px;
     height: 50px;
     display: flex;
@@ -156,6 +161,7 @@
 }
 
 .ctc-info-card h3 {
+    flex-shrink: 0;
     font-family: var(--font-heading);
     font-size: 1.08rem;
     font-weight: 700;
@@ -170,10 +176,17 @@
     color: var(--text-body);
     line-height: 1.55;
     margin-bottom: 16px;
+    word-break: break-word;
 }
 
+/* Pins the link (or static text) to the bottom of the card so every
+   card in the row lines up on the same baseline, no matter how many
+   lines the paragraph above it wraps to. */
 .ctc-info-link {
     display: inline-block;
+    align-self: flex-start;
+    margin-top: auto;
+    max-width: 100%;
     font-family: var(--font-body);
     font-size: 0.9rem;
     font-weight: 700;
@@ -181,6 +194,7 @@
     text-decoration: none;
     border-bottom: 1.5px solid rgba(79, 70, 229, 0.3);
     padding-bottom: 2px;
+    word-break: break-word;
     transition: border-color 0.25s ease;
 }
 
@@ -257,6 +271,30 @@
     box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.12);
 }
 
+/* --- Field-level validation error state --- */
+.ctc-form-field.has-error input,
+.ctc-form-field.has-error select,
+.ctc-form-field.has-error textarea {
+    border-color: #E11D48;
+    background: #FFF1F2;
+}
+
+.ctc-form-field.has-error input:focus,
+.ctc-form-field.has-error textarea:focus {
+    box-shadow: 0 0 0 4px rgba(225, 29, 72, 0.12);
+}
+
+.ctc-field-error {
+    display: none;
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #E11D48;
+    line-height: 1.4;
+}
+
+.ctc-form-field.has-error .ctc-field-error { display: block; }
+
 .ctc-form-submit {
     align-self: flex-start;
     display: inline-flex;
@@ -268,6 +306,23 @@
 }
 
 .ctc-form-submit svg { width: 17px; height: 17px; }
+
+.ctc-form-success {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #15803D;
+    background: #F0FDF4;
+    border: 1.5px solid rgba(21, 128, 61, 0.25);
+    border-radius: 14px;
+    padding: 13px 16px;
+    margin-top: 4px;
+}
+
+.ctc-form-success.is-visible { display: flex; }
 
 /* Map column */
 .ctc-map-col { height: 100%; }
@@ -374,6 +429,11 @@
 .ctc-steps-header .section-tagline { color: #C7D2FE; }
 .ctc-steps-header .svc-section-heading { color: #ffffff; margin-bottom: 0; }
 
+.ctc-steps-viewport {
+    position: relative;
+    width: 100%;
+}
+
 .ctc-steps-track {
     display: flex;
     gap: 32px;
@@ -437,6 +497,40 @@
     color: rgba(255, 255, 255, 0.72);
     line-height: 1.6;
 }
+
+/* --- Manual arrow controls for the steps track --- */
+.ctc-steps-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 5;
+    backdrop-filter: blur(6px);
+    transition: background 0.25s ease, border-color 0.25s ease, opacity 0.25s ease, transform 0.25s ease;
+}
+
+.ctc-steps-arrow:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.22);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.ctc-steps-arrow:disabled {
+    opacity: 0.3;
+    cursor: default;
+}
+
+.ctc-steps-arrow-prev { left: 20px; }
+.ctc-steps-arrow-next { right: 20px; }
 
 .ctc-steps-progress {
     width: 240px;
@@ -535,6 +629,30 @@
 }
 
 /* ---------------------------------------------------------
+   SECTION 6 — Wellness-style CTA email validation
+   --------------------------------------------------------- */
+.wellness-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.wellness-form.has-error .wellness-input {
+    border-color: #E11D48;
+    box-shadow: 0 0 0 4px rgba(225, 29, 72, 0.12);
+}
+
+.wellness-email-error {
+    display: none;
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #FCA5A5;
+}
+
+.wellness-form.has-error .wellness-email-error { display: block; }
+
+/* ---------------------------------------------------------
    RESPONSIVE
    --------------------------------------------------------- */
 @media (max-width: 1024px) {
@@ -559,6 +677,9 @@
     .ctc-form-row { grid-template-columns: 1fr; }
 
     .ctc-step-card { width: 250px; }
+    .ctc-steps-arrow { width: 40px; height: 40px; font-size: 1rem; }
+    .ctc-steps-arrow-prev { left: 10px; }
+    .ctc-steps-arrow-next { right: 10px; }
 
     .ctc-faq { padding: 60px 20px 20px 20px; }
     .ctc-faq-question { padding: 18px 20px; font-size: 0.96rem; }

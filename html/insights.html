@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../css/styles.css?v=2">
-    <link rel="stylesheet" href="../css/insights.css?v=2">
+    <link rel="stylesheet" href="../css/insights.css?v=3">
 </head>
 <body>
 
@@ -72,8 +72,8 @@
                     written by the advisors actually running the engagements.
                 </p>
                 <div class="ins-hero-actions reveal-text delay-4">
-                    <a href="#ins-grid" class="btn-book">Browse latest</a>
-                    <a href="#ins-newsletter" class="btn-learn">Subscribe</a>
+                    <a href="404.html" class="btn-book">Browse latest</a>
+                    <a href="404.html" class="btn-learn">Subscribe</a>
                 </div>
             </div>
 
@@ -102,7 +102,7 @@
         </section>
 
         <!-- ============================================================
-             SECTION 1.5 — Value props (why read Precept Insights) — NEW
+             SECTION 1.5 — Value props (why read Precept Insights)
              ============================================================ -->
         <section class="ins-value-props">
             <div class="ins-value-card reveal-scroll-up">
@@ -128,7 +128,7 @@
         <section class="ins-featured" id="ins-featured-trigger">
             <div class="ins-featured-card reveal-scroll-up">
                 <div class="ins-featured-img-wrap">
-                    <img src="../assets/cc47.webp" alt="SOC 2 vs ISO 27001 framework comparison" class="ins-featured-img" data-parallax-scroll="0.15">
+                    <img src="../assets/cc100.webp" alt="SOC 2 vs ISO 27001 framework comparison" class="ins-featured-img" data-parallax-scroll="0.15">
                     <span class="ins-featured-badge">Editor's Pick</span>
                 </div>
                 <div class="ins-featured-content">
@@ -320,7 +320,7 @@
         </section>
 
         <!-- ============================================================
-             SECTION 3.5 — Glossary flip cards (tap or hover to reveal) — NEW
+             SECTION 3.5 — Glossary flip cards (tap or hover to reveal)
              ============================================================ -->
         <section class="ins-glossary" id="ins-glossary">
             <div class="svc-section-header reveal-scroll-up">
@@ -405,101 +405,116 @@
         </section>
 
         <!-- ============================================================
-             SECTION 4 — Trending This Week (scroll-driven horizontal panel)
+             SECTION 4 — Trending This Week
+             Arrow-controlled horizontal carousel (no scroll-jacking,
+             no auto-slide — user drives it with the Prev/Next buttons
+             or by swiping on touch devices).
              ============================================================ -->
-        <section class="ins-trend-outer" id="ins-trend-outer">
-            <div class="ins-trend-sticky">
+        <section class="ins-trend-section" id="ins-trend-outer">
+            <div class="ins-trend-inner">
                 <div class="ins-trend-header reveal-scroll-up">
                     <span class="section-tagline">TRENDING THIS WEEK</span>
-                    <h2 class="svc-section-heading">Keep scrolling, it moves sideways</h2>
+                    <h2 class="svc-section-heading">What compliance teams are reading</h2>
                 </div>
-                <div class="ins-trend-track" id="ins-trend-track">
 
-                    <div class="ins-trend-card icon-variant">
-                        <span class="ins-trend-rank">01</span>
-                        <div class="ins-trend-icon-hero">
-                            <i class="fa-solid fa-scale-balanced watermark"></i>
-                            <i class="fa-solid fa-scale-balanced foreground"></i>
+                <div class="ins-trend-carousel">
+                    <button class="ins-carousel-arrow ins-carousel-arrow-prev" id="ins-trend-prev" type="button" aria-label="Show previous trending articles" disabled>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+                    </button>
+
+                    <div class="ins-trend-track" id="ins-trend-track">
+
+                        <div class="ins-trend-card photo-variant">
+                            <span class="ins-trend-rank">01</span>
+                            <div class="ins-trend-img-wrap">
+                                <img src="../assets/cc101.webp" alt="Compliance advisor comparing SOC 2 and ISO 27001 framework documents" class="ins-trend-img" loading="lazy">
+                                <span class="ins-trend-img-icon"><i class="fa-solid fa-scale-balanced"></i></span>
+                            </div>
+                            <h3>SOC 2 vs. ISO 27001: Which Do You Need First?</h3>
+                            <span class="ins-trend-meta">Frameworks · 7 min</span>
+                            <div class="ins-trend-score">
+                                <div class="ins-trend-score-label"><span>Trend score</span><span>96%</span></div>
+                                <div class="ins-trend-score-track"><div class="ins-trend-score-fill" data-percent="96"></div></div>
+                            </div>
                         </div>
-                        <h3>SOC 2 vs. ISO 27001: Which Do You Need First?</h3>
-                        <span class="ins-trend-meta">Frameworks · 7 min</span>
-                        <div class="ins-trend-score">
-                            <div class="ins-trend-score-label"><span>Trend score</span><span>96%</span></div>
-                            <div class="ins-trend-score-track"><div class="ins-trend-score-fill" data-percent="96"></div></div>
+
+                        <div class="ins-trend-card photo-variant">
+                            <span class="ins-trend-rank">02</span>
+                            <div class="ins-trend-img-wrap">
+                                <img src="../assets/cc102.webp" alt="Card payment terminal representing PCI DSS 4.0 requirements" class="ins-trend-img" loading="lazy">
+                                <span class="ins-trend-img-icon"><i class="fa-solid fa-credit-card"></i></span>
+                            </div>
+                            <h3>PCI DSS 4.0: What Actually Changed</h3>
+                            <span class="ins-trend-meta">Industry News · 5 min</span>
+                            <div class="ins-trend-score">
+                                <div class="ins-trend-score-label"><span>Trend score</span><span>91%</span></div>
+                                <div class="ins-trend-score-track"><div class="ins-trend-score-fill" data-percent="91"></div></div>
+                            </div>
                         </div>
+
+                        <div class="ins-trend-card photo-variant">
+                            <span class="ins-trend-rank">03</span>
+                            <div class="ins-trend-img-wrap">
+                                <img src="../assets/cc103.webp" alt="Security engineer running a penetration test on a laptop" class="ins-trend-img" loading="lazy">
+                                <span class="ins-trend-img-icon"><i class="fa-solid fa-user-secret"></i></span>
+                            </div>
+                            <h3>What Auditors Actually Check in a Pen Test</h3>
+                            <span class="ins-trend-meta">Security Tools · 6 min</span>
+                            <div class="ins-trend-score">
+                                <div class="ins-trend-score-label"><span>Trend score</span><span>84%</span></div>
+                                <div class="ins-trend-score-track"><div class="ins-trend-score-fill" data-percent="84"></div></div>
+                            </div>
+                        </div>
+
+                        <div class="ins-trend-card photo-variant">
+                            <span class="ins-trend-rank">04</span>
+                            <div class="ins-trend-img-wrap">
+                                <img src="../assets/cc104.webp" alt="Binders of ISO 27001 Annex A control documentation" class="ins-trend-img" loading="lazy">
+                                <span class="ins-trend-img-icon"><i class="fa-solid fa-layer-group"></i></span>
+                            </div>
+                            <h3>ISO 27001 Annex A: The Controls Nobody Reads First</h3>
+                            <span class="ins-trend-meta">Frameworks · 8 min</span>
+                            <div class="ins-trend-score">
+                                <div class="ins-trend-score-label"><span>Trend score</span><span>88%</span></div>
+                                <div class="ins-trend-score-track"><div class="ins-trend-score-fill" data-percent="88"></div></div>
+                            </div>
+                        </div>
+
+                        <div class="ins-trend-card photo-variant">
+                            <span class="ins-trend-rank">05</span>
+                            <div class="ins-trend-img-wrap">
+                                <img src="../assets/cc105.webp" alt="Small fintech team reviewing audit readiness at a whiteboard" class="ins-trend-img" loading="lazy">
+                                <span class="ins-trend-img-icon"><i class="fa-solid fa-building-shield"></i></span>
+                            </div>
+                            <h3>How a 40-Person Fintech Passed Its First Audit</h3>
+                            <span class="ins-trend-meta">Case Studies · 9 min</span>
+                            <div class="ins-trend-score">
+                                <div class="ins-trend-score-label"><span>Trend score</span><span>79%</span></div>
+                                <div class="ins-trend-score-track"><div class="ins-trend-score-fill" data-percent="79"></div></div>
+                            </div>
+                        </div>
+
+                        <div class="ins-trend-card photo-variant">
+                            <span class="ins-trend-rank">06</span>
+                            <div class="ins-trend-img-wrap">
+                                <img src="../assets/cc106.webp" alt="EU flag beside a laptop, representing the EU AI Act" class="ins-trend-img" loading="lazy">
+                                <span class="ins-trend-img-icon"><i class="fa-solid fa-robot"></i></span>
+                            </div>
+                            <h3>The EU AI Act: What Compliance Teams Need to Track</h3>
+                            <span class="ins-trend-meta">Industry News · 6 min</span>
+                            <div class="ins-trend-score">
+                                <div class="ins-trend-score-label"><span>Trend score</span><span>76%</span></div>
+                                <div class="ins-trend-score-track"><div class="ins-trend-score-fill" data-percent="76"></div></div>
+                            </div>
+                        </div>
+
                     </div>
 
-                    <div class="ins-trend-card icon-variant">
-                        <span class="ins-trend-rank">02</span>
-                        <div class="ins-trend-icon-hero">
-                            <i class="fa-solid fa-credit-card watermark"></i>
-                            <i class="fa-solid fa-credit-card foreground"></i>
-                        </div>
-                        <h3>PCI DSS 4.0: What Actually Changed</h3>
-                        <span class="ins-trend-meta">Industry News · 5 min</span>
-                        <div class="ins-trend-score">
-                            <div class="ins-trend-score-label"><span>Trend score</span><span>91%</span></div>
-                            <div class="ins-trend-score-track"><div class="ins-trend-score-fill" data-percent="91"></div></div>
-                        </div>
-                    </div>
-
-                    <div class="ins-trend-card icon-variant">
-                        <span class="ins-trend-rank">03</span>
-                        <div class="ins-trend-icon-hero">
-                            <i class="fa-solid fa-user-secret watermark"></i>
-                            <i class="fa-solid fa-user-secret foreground"></i>
-                        </div>
-                        <h3>What Auditors Actually Check in a Pen Test</h3>
-                        <span class="ins-trend-meta">Security Tools · 6 min</span>
-                        <div class="ins-trend-score">
-                            <div class="ins-trend-score-label"><span>Trend score</span><span>84%</span></div>
-                            <div class="ins-trend-score-track"><div class="ins-trend-score-fill" data-percent="84"></div></div>
-                        </div>
-                    </div>
-
-                    <div class="ins-trend-card icon-variant">
-                        <span class="ins-trend-rank">04</span>
-                        <div class="ins-trend-icon-hero">
-                            <i class="fa-solid fa-layer-group watermark"></i>
-                            <i class="fa-solid fa-layer-group foreground"></i>
-                        </div>
-                        <h3>ISO 27001 Annex A: The Controls Nobody Reads First</h3>
-                        <span class="ins-trend-meta">Frameworks · 8 min</span>
-                        <div class="ins-trend-score">
-                            <div class="ins-trend-score-label"><span>Trend score</span><span>88%</span></div>
-                            <div class="ins-trend-score-track"><div class="ins-trend-score-fill" data-percent="88"></div></div>
-                        </div>
-                    </div>
-
-                    <div class="ins-trend-card icon-variant">
-                        <span class="ins-trend-rank">05</span>
-                        <div class="ins-trend-icon-hero">
-                            <i class="fa-solid fa-building-shield watermark"></i>
-                            <i class="fa-solid fa-building-shield foreground"></i>
-                        </div>
-                        <h3>How a 40-Person Fintech Passed Its First Audit</h3>
-                        <span class="ins-trend-meta">Case Studies · 9 min</span>
-                        <div class="ins-trend-score">
-                            <div class="ins-trend-score-label"><span>Trend score</span><span>79%</span></div>
-                            <div class="ins-trend-score-track"><div class="ins-trend-score-fill" data-percent="79"></div></div>
-                        </div>
-                    </div>
-
-                    <div class="ins-trend-card icon-variant">
-                        <span class="ins-trend-rank">06</span>
-                        <div class="ins-trend-icon-hero">
-                            <i class="fa-solid fa-robot watermark"></i>
-                            <i class="fa-solid fa-robot foreground"></i>
-                        </div>
-                        <h3>The EU AI Act: What Compliance Teams Need to Track</h3>
-                        <span class="ins-trend-meta">Industry News · 6 min</span>
-                        <div class="ins-trend-score">
-                            <div class="ins-trend-score-label"><span>Trend score</span><span>76%</span></div>
-                            <div class="ins-trend-score-track"><div class="ins-trend-score-fill" data-percent="76"></div></div>
-                        </div>
-                    </div>
-
+                    <button class="ins-carousel-arrow ins-carousel-arrow-next" id="ins-trend-next" type="button" aria-label="Show more trending articles">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                    </button>
                 </div>
+
                 <div class="ins-trend-progress" aria-hidden="true">
                     <div class="ins-trend-progress-bar" id="ins-trend-progress-bar"></div>
                 </div>
@@ -558,7 +573,10 @@
         </section>
 
         <!-- ============================================================
-             SECTION 7 — Meet Our Writers (infinite carousel)
+             SECTION 7 — Meet Our Writers
+             Arrow-controlled horizontal carousel (replaces the
+             auto-scrolling infinite marquee, which is what made
+             writer cards appear to slide as the page was scrolled).
              ============================================================ -->
         <section class="experts-section" id="ins-writers-trigger">
             <div class="experts-animated-bg"></div>
@@ -569,7 +587,11 @@
             </div>
 
             <div class="experts-carousel-wrapper">
-                <div class="experts-track">
+                <button class="ins-carousel-arrow ins-carousel-arrow-prev" id="ins-writers-prev" type="button" aria-label="Show previous writers" disabled>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+
+                <div class="experts-track" id="ins-writers-track">
                     <div class="expert-card initials-variant">
                         <div class="expert-img-border">
                             <div class="expert-flip" tabindex="0">
@@ -625,72 +647,6 @@
                     <div class="expert-card initials-variant">
                         <div class="expert-img-border">
                             <div class="expert-flip" tabindex="0">
-                                <div class="expert-flip-inner">
-                                    <div class="expert-flip-front">DM</div>
-                                    <div class="expert-flip-back"><i class="fa-solid fa-award"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                        <h3 class="expert-name">Devon Marsh</h3>
-                        <p class="expert-role">ISO Lead Assessor</p>
-                        <p class="expert-fact">19 articles · ISO 27001 Annex A deep dives</p>
-                    </div>
-                    <!-- duplicate set for seamless loop -->
-                    <div class="expert-card initials-variant" aria-hidden="true">
-                        <div class="expert-img-border">
-                            <div class="expert-flip" tabindex="-1">
-                                <div class="expert-flip-inner">
-                                    <div class="expert-flip-front">EK</div>
-                                    <div class="expert-flip-back"><i class="fa-solid fa-sitemap"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                        <h3 class="expert-name">Elena Kade</h3>
-                        <p class="expert-role">Chief Compliance Officer</p>
-                        <p class="expert-fact">42 articles · specializes in framework sequencing</p>
-                    </div>
-                    <div class="expert-card initials-variant" aria-hidden="true">
-                        <div class="expert-img-border">
-                            <div class="expert-flip" tabindex="-1">
-                                <div class="expert-flip-inner">
-                                    <div class="expert-flip-front">MR</div>
-                                    <div class="expert-flip-back"><i class="fa-solid fa-magnifying-glass"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                        <h3 class="expert-name">Marcus Reyes</h3>
-                        <p class="expert-role">Lead Auditor</p>
-                        <p class="expert-fact">31 articles · has sat in on 60+ Stage 1 audits</p>
-                    </div>
-                    <div class="expert-card initials-variant" aria-hidden="true">
-                        <div class="expert-img-border">
-                            <div class="expert-flip" tabindex="-1">
-                                <div class="expert-flip-inner">
-                                    <div class="expert-flip-front">PA</div>
-                                    <div class="expert-flip-back"><i class="fa-solid fa-scale-balanced"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                        <h3 class="expert-name">Priya Anand</h3>
-                        <p class="expert-role">Data Privacy Counsel</p>
-                        <p class="expert-fact">27 articles · GDPR &amp; CCPA specialist</p>
-                    </div>
-                    <div class="expert-card initials-variant" aria-hidden="true">
-                        <div class="expert-img-border">
-                            <div class="expert-flip" tabindex="-1">
-                                <div class="expert-flip-inner">
-                                    <div class="expert-flip-front">JO</div>
-                                    <div class="expert-flip-back"><i class="fa-solid fa-shield-halved"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                        <h3 class="expert-name">James Okafor</h3>
-                        <p class="expert-role">Security Compliance Lead</p>
-                        <p class="expert-fact">24 articles · pen-testing &amp; monitoring tools</p>
-                    </div>
-                    <div class="expert-card initials-variant" aria-hidden="true">
-                        <div class="expert-img-border">
-                            <div class="expert-flip" tabindex="-1">
                                 <div class="expert-flip-inner">
                                     <div class="expert-flip-front">DM</div>
                                     <div class="expert-flip-back"><i class="fa-solid fa-award"></i></div>
@@ -702,6 +658,10 @@
                         <p class="expert-fact">19 articles · ISO 27001 Annex A deep dives</p>
                     </div>
                 </div>
+
+                <button class="ins-carousel-arrow ins-carousel-arrow-next" id="ins-writers-next" type="button" aria-label="Show more writers">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
             </div>
         </section>
 
@@ -732,7 +692,7 @@
 
             <div class="footer-col footer-brand-col">
                 <a href="index.html" class="footer-logo-link">
-                    <img src="../assets/stck2.webp" alt="Precept Logo" class="footer-logo">
+                    <img src="../assets/stck2-transparent.webp" alt="Precept Logo" class="footer-logo">
                 </a>
                 <p class="footer-tagline">At Precept, we deliver provable compliance focused on trust, evidence, and audit-day readiness.</p>
                 <div class="footer-contact-details">

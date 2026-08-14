@@ -65,48 +65,65 @@ document.addEventListener("DOMContentLoaded", () => {
     }, { passive: true });
     updateParallax();
 
-    // 5. Scroll-driven horizontal "Trending" panel.
-    //    The outer section's height is set so that scrolling through it maps
-    //    1:1 to the track's horizontal travel distance, while the sticky inner
-    //    panel pins in place and the track translates sideways.
-    const trendOuter = document.getElementById("ins-trend-outer");
-    const trendTrack = document.getElementById("ins-trend-track");
-    const trendProgressBar = document.getElementById("ins-trend-progress-bar");
+    // 5. Shared helper — turns a horizontally-scrollable flex track into a
+    //    button-controlled carousel. Used by both "Trending This Week" and
+    //    "Meet Our Writers" (replaces the old scroll-jacked / auto-marquee
+    //    behavior, which is what was causing cards to slide as the page
+    //    scrolled, and was inflating page height with empty space).
+    function initArrowCarousel({ track, prevBtn, nextBtn, progressBar }) {
+        if (!track) return;
 
-    function sizeTrendSection() {
-        if (!trendOuter || !trendTrack) return;
-        const trackWidth = trendTrack.scrollWidth;
-        const viewportW = window.innerWidth;
-        const travel = Math.max(trackWidth - viewportW + 160, 0); // extra buffer for padding
-        // Outer section height = 100vh (for the pin) + however far we need to scroll
-        // to cover the horizontal travel distance (1 scroll px : 1 track px).
-        trendOuter.style.height = `calc(100vh + ${travel}px)`;
-        trendOuter.dataset.travel = travel;
-    }
+        function cardStep() {
+            const firstCard = track.firstElementChild;
+            if (!firstCard) return track.clientWidth;
+            const styles = getComputedStyle(track);
+            const gap = parseFloat(styles.columnGap || styles.gap || "0") || 0;
+            return firstCard.getBoundingClientRect().width + gap;
+        }
 
-    function updateTrendScroll() {
-        if (!trendOuter || !trendTrack) return;
-        const travel = parseFloat(trendOuter.dataset.travel || "0");
-        if (travel <= 0) return;
+        function updateState() {
+            const maxScroll = Math.max(track.scrollWidth - track.clientWidth, 0);
+            if (prevBtn) prevBtn.disabled = track.scrollLeft <= 1;
+            if (nextBtn) nextBtn.disabled = track.scrollLeft >= maxScroll - 1;
+            if (progressBar) {
+                const pct = maxScroll > 0 ? (track.scrollLeft / maxScroll) * 100 : 0;
+                progressBar.style.width = `${pct}%`;
+            }
+        }
 
-        const rect = trendOuter.getBoundingClientRect();
-        // Progress is 0 when the section's top reaches the viewport top,
-        // and 1 once we've scrolled past the full travel distance.
-        const scrolled = -rect.top;
-        const progress = Math.min(Math.max(scrolled / travel, 0), 1);
+        if (prevBtn) {
+            prevBtn.addEventListener("click", () => {
+                track.scrollBy({ left: -cardStep(), behavior: "smooth" });
+            });
+        }
+        if (nextBtn) {
+            nextBtn.addEventListener("click", () => {
+                track.scrollBy({ left: cardStep(), behavior: "smooth" });
+            });
+        }
 
-        trendTrack.style.transform = `translateX(${-progress * travel}px)`;
-        if (trendProgressBar) trendProgressBar.style.width = `${progress * 100}%`;
-    }
-
-    if (trendOuter && trendTrack) {
-        sizeTrendSection();
-        window.addEventListener("resize", sizeTrendSection);
-        window.addEventListener("scroll", () => {
-            requestAnimationFrame(updateTrendScroll);
+        track.addEventListener("scroll", () => {
+            requestAnimationFrame(updateState);
         }, { passive: true });
-        updateTrendScroll();
+
+        window.addEventListener("resize", () => requestAnimationFrame(updateState));
+        updateState();
     }
+
+    // 5a. Trending This Week carousel
+    initArrowCarousel({
+        track: document.getElementById("ins-trend-track"),
+        prevBtn: document.getElementById("ins-trend-prev"),
+        nextBtn: document.getElementById("ins-trend-next"),
+        progressBar: document.getElementById("ins-trend-progress-bar")
+    });
+
+    // 5b. Meet Our Writers carousel
+    initArrowCarousel({
+        track: document.getElementById("ins-writers-track"),
+        prevBtn: document.getElementById("ins-writers-prev"),
+        nextBtn: document.getElementById("ins-writers-next")
+    });
 
     // 6.1. Glossary flip cards — click/tap toggles flip (hover already handled in CSS for pointer devices)
     document.querySelectorAll(".glossary-card").forEach(card => {
@@ -167,8 +184,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         card.classList.add("card-hidden");
                     }
                 });
-                // Recalculate trending-panel travel distance in case layout shifted height above it
-                sizeTrendSection();
             }, 300);
         });
     });

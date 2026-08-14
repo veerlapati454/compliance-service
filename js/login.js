@@ -75,7 +75,7 @@
       // --- Direct navigation without loading delay ---
       function redirectToDashboard() {
         const email = emailInput.value.trim();
-        const redirectUrl = (selectedRole === 'admin') ? 'admindashboard.html' : 'dashboard.html';
+        const redirectUrl = (selectedRole === 'admin') ? 'adminDashboard.html' : 'dashboard.html';
 
         const userData = {
           email: email,

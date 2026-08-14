@@ -92,7 +92,7 @@ html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:var(
 .chart-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-bottom:24px}
 .chart-row-2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px}
 .card{background:var(--white);border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden}
-.card-header{padding:20px 24px 0;display:flex;align-items:center;justify-content:space-between}
+.card-header{padding:20px 24px 0;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
 .card-title{font-family:'Outfit',sans-serif;font-size:1rem;font-weight:700;color:var(--text)}
 .card-subtitle{font-size:0.75rem;color:var(--text-muted);margin-top:2px}
 .card-body{padding:20px 24px 24px}
@@ -107,15 +107,15 @@ html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:var(
 .filter-btn:hover,.filter-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
 .filter-btn svg{width:14px;height:14px}
 .date-range{display:flex;align-items:center;gap:6px;background:var(--white);border:1px solid var(--border);border-radius:10px;padding:9px 14px}
-.date-range input{border:none;background:transparent;font-size:0.83rem;font-family:inherit;color:var(--text);outline:none}
+.date-range input{border:none;background:transparent;font-size:0.83rem;font-family:inherit;color:var(--text);outline:none;min-width:0}
 .date-range span{color:var(--text-muted);font-size:0.8rem}
 
 /* ── TABLE ── */
-.table-wrap{overflow-x:auto}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
 table{width:100%;border-collapse:collapse;font-size:0.85rem}
 thead tr{border-bottom:2px solid var(--bg)}
 th{padding:11px 16px;text-align:left;font-size:0.72rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;white-space:nowrap}
-td{padding:13px 16px;color:var(--text);border-bottom:1px solid rgba(37,99,235,0.07);vertical-align:middle}
+td{padding:13px 16px;color:var(--text);border-bottom:1px solid rgba(37,99,235,0.07);vertical-align:middle;white-space:nowrap}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:rgba(37,99,235,0.03)}
 .status-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:100px;font-size:0.72rem;font-weight:700}
@@ -152,7 +152,7 @@ tr:hover td{background:rgba(37,99,235,0.03)}
 .btn-primary:hover{background:rgba(255,255,255,0.9);transform:translateY(-2px)}
 .btn-outline-white{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.35);border-radius:10px;padding:10px 20px;font-size:0.85rem;font-weight:600;font-family:inherit;cursor:pointer;backdrop-filter:blur(8px);transition:var(--transition);text-decoration:none}
 .btn-outline-white:hover{background:rgba(255,255,255,0.25)}
-.btn-action{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:10px;border:1px solid var(--border);background:var(--white);font-size:0.83rem;font-family:inherit;font-weight:600;color:var(--primary-dark);cursor:pointer;transition:var(--transition)}
+.btn-action{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:10px;border:1px solid var(--border);background:var(--white);font-size:0.83rem;font-family:inherit;font-weight:600;color:var(--primary-dark);cursor:pointer;transition:var(--transition);white-space:nowrap}
 .btn-action:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
 .btn-action svg{width:15px;height:15px}
 
@@ -174,7 +174,7 @@ tr:hover td{background:rgba(37,99,235,0.03)}
 .progress-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--primary),#93C5FD)}
 
 /* ── SECTION HEADER ── */
-.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;gap:12px;flex-wrap:wrap}
 .section-header h2{font-family:'Outfit',sans-serif;font-size:1.5rem;font-weight:800;color:var(--text)}
 .section-header p{font-size:0.85rem;color:var(--text-muted);margin-top:2px}
 
@@ -204,6 +204,7 @@ tr:hover td{background:rgba(37,99,235,0.03)}
     cursor: pointer;
     transition: var(--transition);
     color: var(--primary-dark);
+    flex-shrink: 0;
 }
 .menu-toggle:hover { background: var(--bg); }
 .menu-toggle svg { width: 20px; height: 20px; }
@@ -221,6 +222,7 @@ tr:hover td{background:rgba(37,99,235,0.03)}
     border-radius: 8px;
     cursor: pointer;
     transition: var(--transition);
+    flex-shrink: 0;
 }
 .sidebar-close:hover { background: rgba(255, 255, 255, 0.2); color: #fff; }
 .sidebar-close svg { width: 18px; height: 18px; }
@@ -234,7 +236,12 @@ tr:hover td{background:rgba(37,99,235,0.03)}
 .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:99}
 
 /* ── RESPONSIVE ── */
-@media(max-width:1100px){.kpi-grid{grid-template-columns:repeat(2,1fr)}.chart-row{grid-template-columns:1fr}.chart-row-3{grid-template-columns:1fr 1fr}}
+@media(max-width:1100px){
+  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .chart-row{grid-template-columns:1fr}
+  .chart-row-3{grid-template-columns:1fr 1fr}
+  .topbar-search{display:none}
+}
 @media(max-width:768px){
   .sidebar{transform:translateX(-100%); width: 280px;}
   .sidebar.open{transform:translateX(0)}
@@ -251,15 +258,36 @@ tr:hover td{background:rgba(37,99,235,0.03)}
   .chart-row-2{grid-template-columns:1fr}
   .metric-row{grid-template-columns:1fr 1fr}
   .section-page{padding:20px 16px}
-  .welcome-banner{flex-direction:column;gap:20px;align-items:flex-start}
-  .filter-bar{gap:8px}
+  .welcome-banner{flex-direction:column;gap:20px;align-items:flex-start;padding:24px 22px}
+  .welcome-actions{width:100%;flex-direction:column}
+  .welcome-actions a{width:100%;justify-content:center}
+  .filter-bar{gap:8px;flex-direction:column;align-items:stretch}
+  .filter-bar .filter-select,.filter-bar .filter-btn,.filter-bar .date-range{width:100%;justify-content:center}
+  .date-range{flex-wrap:wrap}
+  .date-range input{flex:1;min-width:0}
   .topbar-subtitle { display: none; }
   .topbar-search { display: none; }
   .topbar-date-filter { display: none; }
+  .topbar-left{min-width:0}
+  .topbar-left .page-title{font-size:1.05rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .section-header{flex-direction:column;align-items:flex-start}
+  .section-header .btn-action{width:100%;justify-content:center}
+  .card-header{flex-direction:column;align-items:flex-start}
+  .card-header select{width:100%}
+  th,td{padding:10px 12px;font-size:0.8rem}
+  .kpi-card{padding:18px 18px}
+  .kpi-value{font-size:1.6rem}
 }
 @media(max-width:480px){
   .kpi-grid{grid-template-columns:1fr}
   .metric-row{grid-template-columns:1fr}
+  .topbar-right{gap:8px}
+  .topbar-avatar{width:34px;height:34px;font-size:0.85rem}
+  .notif-btn{width:34px;height:34px}
+  .welcome-text h2{font-size:1.25rem}
+  .welcome-text p{font-size:0.82rem}
+  .card-body{padding:16px}
+  .card-header{padding:16px 16px 0}
 }
 </style>
 </head>
@@ -270,7 +298,7 @@ tr:hover td{background:rgba(37,99,235,0.03)}
 <!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-logo">
-    <a href="dashboard.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
+    <a href="404.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
       <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2 4 5v6c0 5.2 3.4 9.7 8 11 4.6-1.3 8-5.8 8-11V5l-8-3z"/><polyline points="9 12 11 14 15 10"/></svg>
       <span class="sidebar-logo-text">Stackly Compliance</span>
     </a>
@@ -278,7 +306,7 @@ tr:hover td{background:rgba(37,99,235,0.03)}
       <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
   </div>
-  <div class="sidebar-user" onclick="window.location.href='profile.html'" style="cursor:pointer" title="View Profile">
+  <div class="sidebar-user" onclick="window.location.href='404.html'" style="cursor:pointer" title="View Profile">
     <div class="sidebar-avatar" id="sidebarAvatarLetter">U</div>
     <div class="sidebar-user-info">
       <div class="sidebar-user-name" id="sidebarUserName">User</div>
@@ -341,11 +369,11 @@ tr:hover td{background:rgba(37,99,235,0.03)}
       <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
       <input type="date" id="topbarDate">
     </div>
-    <div class="notif-btn" onclick="window.location.href='notifications.html'" style="cursor:pointer" title="Notifications">
+    <div class="notif-btn" onclick="window.location.href='404.html'" style="cursor:pointer" title="Notifications">
       <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
       <span class="notif-dot"></span>
     </div>
-    <div class="topbar-avatar" id="topbarAvatarLetter" onclick="window.location.href='profile.html'" style="cursor:pointer" title="Profile">U</div>
+    <div class="topbar-avatar" id="topbarAvatarLetter" onclick="window.location.href='404.html'" style="cursor:pointer" title="Profile">U</div>
   </div>
 </div>
 
@@ -360,8 +388,8 @@ tr:hover td{background:rgba(37,99,235,0.03)}
       <p id="welcomeSubtitle">Your personal compliance score is 92%. You have 2 training modules due this week.</p>
     </div>
     <div class="welcome-actions">
-      <a href="#sec-training" class="btn-outline-white" onclick="showSection('training')">View Training</a>
-      <a href="#sec-tasks" class="btn-primary" onclick="showSection('tasks')">My Tasks</a>
+      <a href="404.html" class="btn-outline-white">View Training</a>
+      <a href="404.html" class="btn-primary">My Tasks</a>
     </div>
   </div>
 
@@ -443,7 +471,7 @@ tr:hover td{background:rgba(37,99,235,0.03)}
 <section class="section-page" id="sec-training">
   <div class="section-header">
     <div><h2>My Training</h2><p>Track your training progress and upcoming modules</p></div>
-    <a href="training.html" class="btn-action"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>View All Training</a>
+    <a href="404.html" class="btn-action"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>View All Training</a>
   </div>
 
   <div class="kpi-grid">
@@ -460,10 +488,10 @@ tr:hover td{background:rgba(37,99,235,0.03)}
         <table>
           <thead><tr><th>Module</th><th>Category</th><th>Progress</th><th>Due Date</th><th>Status</th><th>Action</th></tr></thead>
           <tbody>
-            <tr><td>Security Awareness Module 4</td><td>Security</td><td><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div></div></td><td>Jul 20, 2026</td><td><span class="status-badge badge-amber">Pending</span></td><td><a href="training.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">Start</a></td></tr>
-            <tr><td>Data Privacy Training</td><td>Privacy</td><td><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill" style="width:45%"></div></div></div></td><td>Jul 25, 2026</td><td><span class="status-badge badge-blue">In Progress</span></td><td><a href="training.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">Resume</a></td></tr>
-            <tr><td>Phishing Simulation Test</td><td>Security</td><td><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div></div></td><td>Jul 28, 2026</td><td><span class="status-badge badge-red">Overdue</span></td><td><a href="training.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">Complete</a></td></tr>
-            <tr><td>Cybersecurity Basics</td><td>Security</td><td><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div></div></td><td>Jun 15, 2026</td><td><span class="status-badge badge-green">Completed</span></td><td><a href="training.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">Review</a></td></tr>
+            <tr><td>Security Awareness Module 4</td><td>Security</td><td><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div></div></td><td>Jul 20, 2026</td><td><span class="status-badge badge-amber">Pending</span></td><td><a href="404.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">Start</a></td></tr>
+            <tr><td>Data Privacy Training</td><td>Privacy</td><td><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill" style="width:45%"></div></div></div></td><td>Jul 25, 2026</td><td><span class="status-badge badge-blue">In Progress</span></td><td><a href="404.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">Resume</a></td></tr>
+            <tr><td>Phishing Simulation Test</td><td>Security</td><td><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div></div></td><td>Jul 28, 2026</td><td><span class="status-badge badge-red">Overdue</span></td><td><a href="404.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">Complete</a></td></tr>
+            <tr><td>Cybersecurity Basics</td><td>Security</td><td><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div></div></td><td>Jun 15, 2026</td><td><span class="status-badge badge-green">Completed</span></td><td><a href="404.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">Review</a></td></tr>
           </tbody>
         </table>
       </div>
@@ -475,7 +503,7 @@ tr:hover td{background:rgba(37,99,235,0.03)}
 <section class="section-page" id="sec-policies">
   <div class="section-header">
     <div><h2>My Policies</h2><p>View and acknowledge your assigned policies</p></div>
-    <a href="policies.html" class="btn-action"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>View All</a>
+    <a href="404.html" class="btn-action"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>View All</a>
   </div>
 
   <div class="kpi-grid">
@@ -492,10 +520,10 @@ tr:hover td{background:rgba(37,99,235,0.03)}
         <table>
           <thead><tr><th>Policy Name</th><th>Version</th><th>Assigned Date</th><th>Due Date</th><th>Status</th><th>Action</th></tr></thead>
           <tbody>
-            <tr><td>Information Security Policy</td><td>v4.1</td><td>Jul 1, 2026</td><td>Jul 15, 2026</td><td><span class="status-badge badge-amber">Pending</span></td><td><a href="policy.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">Acknowledge</a></td></tr>
-            <tr><td>Data Privacy Policy</td><td>v3.0</td><td>Jun 25, 2026</td><td>Jul 10, 2026</td><td><span class="status-badge badge-green">Acknowledged</span></td><td><a href="policy.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">View</a></td></tr>
-            <tr><td>Acceptable Use Policy</td><td>v2.4</td><td>Jun 20, 2026</td><td>Jul 5, 2026</td><td><span class="status-badge badge-green">Acknowledged</span></td><td><a href="policy.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">View</a></td></tr>
-            <tr><td>Vendor Security Policy</td><td>v1.2</td><td>Jul 5, 2026</td><td>Jul 20, 2026</td><td><span class="status-badge badge-amber">Pending</span></td><td><a href="policy.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">Acknowledge</a></td></tr>
+            <tr><td>Information Security Policy</td><td>v4.1</td><td>Jul 1, 2026</td><td>Jul 15, 2026</td><td><span class="status-badge badge-amber">Pending</span></td><td><a href="404.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">Acknowledge</a></td></tr>
+            <tr><td>Data Privacy Policy</td><td>v3.0</td><td>Jun 25, 2026</td><td>Jul 10, 2026</td><td><span class="status-badge badge-green">Acknowledged</span></td><td><a href="404.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">View</a></td></tr>
+            <tr><td>Acceptable Use Policy</td><td>v2.4</td><td>Jun 20, 2026</td><td>Jul 5, 2026</td><td><span class="status-badge badge-green">Acknowledged</span></td><td><a href="404.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">View</a></td></tr>
+            <tr><td>Vendor Security Policy</td><td>v1.2</td><td>Jul 5, 2026</td><td>Jul 20, 2026</td><td><span class="status-badge badge-amber">Pending</span></td><td><a href="404.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">Acknowledge</a></td></tr>
           </tbody>
         </table>
       </div>
@@ -507,7 +535,7 @@ tr:hover td{background:rgba(37,99,235,0.03)}
 <section class="section-page" id="sec-tasks">
   <div class="section-header">
     <div><h2>My Tasks</h2><p>Track and manage your assigned compliance tasks</p></div>
-    <a href="tasks.html" class="btn-action"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>View All Tasks</a>
+    <a href="404.html" class="btn-action"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>View All Tasks</a>
   </div>
 
   <div class="kpi-grid">
@@ -524,10 +552,10 @@ tr:hover td{background:rgba(37,99,235,0.03)}
         <table>
           <thead><tr><th>Task ID</th><th>Task Description</th><th>Priority</th><th>Due Date</th><th>Status</th><th>Action</th></tr></thead>
           <tbody>
-            <tr><td>#T-089</td><td>Complete quarterly security assessment</td><td><span class="status-badge badge-red">High</span></td><td>Jul 15, 2026</td><td><span class="status-badge badge-amber">In Progress</span></td><td><a href="task.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">Continue</a></td></tr>
-            <tr><td>#T-082</td><td>Review and acknowledge updated policies</td><td><span class="status-badge badge-amber">Medium</span></td><td>Jul 20, 2026</td><td><span class="status-badge badge-amber">Pending</span></td><td><a href="task.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">Start</a></td></tr>
-            <tr><td>#T-074</td><td>Complete phishing simulation test</td><td><span class="status-badge badge-red">High</span></td><td>Jul 28, 2026</td><td><span class="status-badge badge-red">Overdue</span></td><td><a href="task.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">Complete</a></td></tr>
-            <tr><td>#T-065</td><td>Submit security clearance form</td><td><span class="status-badge badge-purple">Low</span></td><td>Aug 1, 2026</td><td><span class="status-badge badge-blue">Upcoming</span></td><td><a href="task.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">Prepare</a></td></tr>
+            <tr><td>#T-089</td><td>Complete quarterly security assessment</td><td><span class="status-badge badge-red">High</span></td><td>Jul 15, 2026</td><td><span class="status-badge badge-amber">In Progress</span></td><td><a href="404.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">Continue</a></td></tr>
+            <tr><td>#T-082</td><td>Review and acknowledge updated policies</td><td><span class="status-badge badge-amber">Medium</span></td><td>Jul 20, 2026</td><td><span class="status-badge badge-amber">Pending</span></td><td><a href="404.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">Start</a></td></tr>
+            <tr><td>#T-074</td><td>Complete phishing simulation test</td><td><span class="status-badge badge-red">High</span></td><td>Jul 28, 2026</td><td><span class="status-badge badge-red">Overdue</span></td><td><a href="404.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">Complete</a></td></tr>
+            <tr><td>#T-065</td><td>Submit security clearance form</td><td><span class="status-badge badge-purple">Low</span></td><td>Aug 1, 2026</td><td><span class="status-badge badge-blue">Upcoming</span></td><td><a href="404.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">Prepare</a></td></tr>
           </tbody>
         </table>
       </div>
@@ -539,7 +567,7 @@ tr:hover td{background:rgba(37,99,235,0.03)}
 <section class="section-page" id="sec-certifications">
   <div class="section-header">
     <div><h2>My Certifications</h2><p>Track your professional certifications and renewals</p></div>
-    <a href="certifications.html" class="btn-action"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>View All</a>
+    <a href="404.html" class="btn-action"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>View All</a>
   </div>
 
   <div class="metric-row">
@@ -555,10 +583,10 @@ tr:hover td{background:rgba(37,99,235,0.03)}
         <table>
           <thead><tr><th>Certification</th><th>Issuing Body</th><th>Date Earned</th><th>Expiry</th><th>Status</th><th>Action</th></tr></thead>
           <tbody>
-            <tr><td>Cybersecurity Fundamentals</td><td>ISC²</td><td>Nov 2024</td><td>Nov 2026</td><td><span class="status-badge badge-green">Active</span></td><td><a href="cert.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">View</a></td></tr>
-            <tr><td>Privacy & Data Protection</td><td>IAPP</td><td>Feb 2025</td><td>Feb 2027</td><td><span class="status-badge badge-green">Active</span></td><td><a href="cert.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">View</a></td></tr>
-            <tr><td>Security Awareness Professional</td><td>SANS</td><td>Aug 2025</td><td>Aug 2026</td><td><span class="status-badge badge-amber">Renewing</span></td><td><a href="cert.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">Renew</a></td></tr>
-            <tr><td>Risk Management Specialist</td><td>RIMS</td><td>Mar 2026</td><td>Mar 2028</td><td><span class="status-badge badge-green">Active</span></td><td><a href="cert.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">View</a></td></tr>
+            <tr><td>Cybersecurity Fundamentals</td><td>ISC²</td><td>Nov 2024</td><td>Nov 2026</td><td><span class="status-badge badge-green">Active</span></td><td><a href="404.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">View</a></td></tr>
+            <tr><td>Privacy & Data Protection</td><td>IAPP</td><td>Feb 2025</td><td>Feb 2027</td><td><span class="status-badge badge-green">Active</span></td><td><a href="404.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">View</a></td></tr>
+            <tr><td>Security Awareness Professional</td><td>SANS</td><td>Aug 2025</td><td>Aug 2026</td><td><span class="status-badge badge-amber">Renewing</span></td><td><a href="404.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">Renew</a></td></tr>
+            <tr><td>Risk Management Specialist</td><td>RIMS</td><td>Mar 2026</td><td>Mar 2028</td><td><span class="status-badge badge-green">Active</span></td><td><a href="404.html" class="btn-action" style="padding:5px 12px;font-size:0.75rem">View</a></td></tr>
           </tbody>
         </table>
       </div>
@@ -621,6 +649,9 @@ function showSection(id) {
     document.getElementById('topbarTitle').textContent = titles[id][0];
     document.getElementById('topbarSubtitle').textContent = titles[id][1];
   }
+  window.scrollTo(0, 0);
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
   if (window.innerWidth <= 768) closeSidebar();
 }
 

@@ -11,8 +11,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../css/styles.css?v=2">
-    <link rel="stylesheet" href="../css/contact.css?v=1">
-    
+    <link rel="stylesheet" href="../css/contact.css?v=2">
+
 </head>
 <body>
 
@@ -73,7 +73,7 @@
                     responds within one business day — no sales queue, no bots.
                 </p>
                 <div class="ctc-hero-actions reveal-text delay-4">
-                    <a href="#ctc-form" class="btn-book">Send a message</a>
+                    <a href="404.html" class="btn-book">Send a message</a>
                     <a href="tel:+18005552947" class="btn-learn">Call +1 (800) 555-2947</a>
                 </div>
             </div>
@@ -89,21 +89,21 @@
                     <span class="ctc-info-icon"><i class="fa-solid fa-phone"></i></span>
                     <h3>Call us</h3>
                     <p>Mon–Fri, 9am–6pm IST. For anything urgent, this is the fastest line.</p>
-                    <a href="tel:+18005552947" class="ctc-info-link">+1 (800) 555-2947</a>
+                    <a href="404.html" class="ctc-info-link">+1 (800) 555-2947</a>
                 </div>
 
                 <div class="ctc-info-card ctc-stagger-item">
                     <span class="ctc-info-icon"><i class="fa-solid fa-envelope"></i></span>
                     <h3>Email us</h3>
                     <p>For scoping questions, RFPs, or anything you'd rather put in writing.</p>
-                    <a href="mailto:advise@stackly.com" class="ctc-info-link">advise@stackly.com</a>
+                    <a href="404.html" class="ctc-info-link">advise@stackly.com</a>
                 </div>
 
                 <div class="ctc-info-card ctc-stagger-item">
                     <span class="ctc-info-icon"><i class="fa-solid fa-location-dot"></i></span>
                     <h3>Visit us</h3>
                     <p>212 Statute Avenue, Hi-Tech City, Hyderabad, 500031.</p>
-                    <a href="#ctc-map" class="ctc-info-link">See the map</a>
+                    <a href="404.html" class="ctc-info-link">See the map</a>
                 </div>
 
                 <div class="ctc-info-card ctc-stagger-item">
@@ -127,23 +127,47 @@
                     <h2 class="svc-section-heading">Start the conversation</h2>
                     <p class="svc-section-sub">Give us a bit of context and we'll come back with next steps, not a generic sales deck.</p>
 
-                    <form class="ctc-form" action="404.html">
+                    <form class="ctc-form" id="ctc-contact-form" action="404.html" novalidate>
                         <div class="ctc-form-row">
-                            <div class="ctc-form-field">
+                            <div class="ctc-form-field" id="ctc-name-field">
                                 <label for="ctc-name">Full name</label>
-                                <input type="text" id="ctc-name" name="name" placeholder="Jordan Lee" required>
+                                <input
+                                    type="text"
+                                    id="ctc-name"
+                                    name="name"
+                                    placeholder="Jordan Lee"
+                                    pattern="[A-Za-z\s'-]+"
+                                    maxlength="60"
+                                    autocomplete="name"
+                                    required>
+                                <span class="ctc-field-error" id="ctc-name-error">Letters only, please (no numbers or symbols).</span>
                             </div>
-                            <div class="ctc-form-field">
+                            <div class="ctc-form-field" id="ctc-email-field">
                                 <label for="ctc-email">Work email</label>
-                                <input type="email" id="ctc-email" name="email" placeholder="jordan@company.com" required>
+                                <input
+                                    type="email"
+                                    id="ctc-email"
+                                    name="email"
+                                    placeholder="jordan@company.com"
+                                    autocomplete="email"
+                                    required>
+                                <span class="ctc-field-error" id="ctc-email-error">Enter a valid email address, e.g. jordan@company.com.</span>
                             </div>
                         </div>
                         <div class="ctc-form-row">
-                            <div class="ctc-form-field">
+                            <div class="ctc-form-field" id="ctc-company-field">
                                 <label for="ctc-company">Company</label>
-                                <input type="text" id="ctc-company" name="company" placeholder="Company name">
+                                <input
+                                    type="text"
+                                    id="ctc-company"
+                                    name="company"
+                                    placeholder="Company name"
+                                    pattern="[A-Za-z\s'-]+"
+                                    maxlength="80"
+                                    autocomplete="organization">
+                                <span class="ctc-field-error" id="ctc-company-error">Letters only, please (no numbers or symbols).</span>
                             </div>
-                            <div class="ctc-form-field">
+                            <div class="ctc-form-field" id="ctc-framework-field">
                                 <label for="ctc-framework">Framework you need</label>
                                 <select id="ctc-framework" name="framework">
                                     <option value="">Select one</option>
@@ -156,14 +180,19 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="ctc-form-field">
+                        <div class="ctc-form-field" id="ctc-message-field">
                             <label for="ctc-message">What's going on?</label>
                             <textarea id="ctc-message" name="message" rows="5" placeholder="A customer is asking for our SOC 2 report and we haven't started..." required></textarea>
+                            <span class="ctc-field-error" id="ctc-message-error">Tell us a little about what's going on.</span>
                         </div>
                         <button type="submit" class="btn-book ctc-form-submit">
                             Send message
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                         </button>
+                        <div class="ctc-form-success" id="ctc-form-success">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span>Thanks — your message looks good and is ready to send.</span>
+                        </div>
                     </form>
                 </div>
 
@@ -195,37 +224,49 @@
                     <span class="section-tagline">WHAT HAPPENS NEXT</span>
                     <h2 class="svc-section-heading">Four steps, no black box</h2>
                 </div>
-                <div class="ctc-steps-track" id="ctc-steps-track">
 
-                    <div class="ctc-step-card">
-                        <span class="ctc-step-num">01</span>
-                        <span class="ctc-step-icon"><i class="fa-solid fa-comments"></i></span>
-                        <h3>Discovery call</h3>
-                        <p>30 minutes to understand your stack, your customers' requirements, and your timeline.</p>
+                <div class="ctc-steps-viewport">
+                    <button type="button" class="ctc-steps-arrow ctc-steps-arrow-prev" id="ctc-steps-prev" aria-label="Previous step" disabled>
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+
+                    <div class="ctc-steps-track" id="ctc-steps-track">
+
+                        <div class="ctc-step-card">
+                            <span class="ctc-step-num">01</span>
+                            <span class="ctc-step-icon"><i class="fa-solid fa-comments"></i></span>
+                            <h3>Discovery call</h3>
+                            <p>30 minutes to understand your stack, your customers' requirements, and your timeline.</p>
+                        </div>
+
+                        <div class="ctc-step-card">
+                            <span class="ctc-step-num">02</span>
+                            <span class="ctc-step-icon"><i class="fa-solid fa-file-signature"></i></span>
+                            <h3>Scope & proposal</h3>
+                            <p>A fixed-price proposal with a realistic timeline, sent within 2 business days.</p>
+                        </div>
+
+                        <div class="ctc-step-card">
+                            <span class="ctc-step-num">03</span>
+                            <span class="ctc-step-icon"><i class="fa-solid fa-diagram-project"></i></span>
+                            <h3>Kickoff & evidence mapping</h3>
+                            <p>We connect our monitoring tools to your environment and map every control to real evidence.</p>
+                        </div>
+
+                        <div class="ctc-step-card">
+                            <span class="ctc-step-num">04</span>
+                            <span class="ctc-step-icon"><i class="fa-solid fa-shield-halved"></i></span>
+                            <h3>Audit & ongoing support</h3>
+                            <p>We run fieldwork alongside you and stay on as your advisor between audit cycles.</p>
+                        </div>
+
                     </div>
 
-                    <div class="ctc-step-card">
-                        <span class="ctc-step-num">02</span>
-                        <span class="ctc-step-icon"><i class="fa-solid fa-file-signature"></i></span>
-                        <h3>Scope & proposal</h3>
-                        <p>A fixed-price proposal with a realistic timeline, sent within 2 business days.</p>
-                    </div>
-
-                    <div class="ctc-step-card">
-                        <span class="ctc-step-num">03</span>
-                        <span class="ctc-step-icon"><i class="fa-solid fa-diagram-project"></i></span>
-                        <h3>Kickoff & evidence mapping</h3>
-                        <p>We connect our monitoring tools to your environment and map every control to real evidence.</p>
-                    </div>
-
-                    <div class="ctc-step-card">
-                        <span class="ctc-step-num">04</span>
-                        <span class="ctc-step-icon"><i class="fa-solid fa-shield-halved"></i></span>
-                        <h3>Audit & ongoing support</h3>
-                        <p>We run fieldwork alongside you and stay on as your advisor between audit cycles.</p>
-                    </div>
-
+                    <button type="button" class="ctc-steps-arrow ctc-steps-arrow-next" id="ctc-steps-next" aria-label="Next step">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
                 </div>
+
                 <div class="ctc-steps-progress" aria-hidden="true">
                     <div class="ctc-steps-progress-bar" id="ctc-steps-progress-bar"></div>
                 </div>
@@ -305,8 +346,11 @@
                 <div class="wellness-content">
                     <h2 class="wellness-title">Prefer to talk it through live?</h2>
                     <p class="wellness-desc">Skip the form and grab 30 minutes directly on an advisor's calendar — no waiting on a reply.</p>
-                    <form class="wellness-form" action="404.html">
-                        <input type="email" class="wellness-input" placeholder="Enter your work email" required>
+                    <form class="wellness-form" id="ctc-wellness-form" action="404.html" novalidate>
+                        <div class="wellness-form-field">
+                            <input type="email" class="wellness-input" id="ctc-wellness-email" name="email" placeholder="Enter your work email" autocomplete="email" required>
+                            <span class="wellness-email-error" id="ctc-wellness-email-error">Enter a valid email address, e.g. jordan@company.com.</span>
+                        </div>
                         <button type="submit" class="btn-join">Book a call</button>
                     </form>
                 </div>
@@ -343,7 +387,7 @@
 
             <div class="footer-col footer-brand-col">
                 <a href="index.html" class="footer-logo-link">
-                    <img src="../assets/stck2.webp" alt="Precept Logo" class="footer-logo">
+                    <img src="../assets/stck2-transparent.webp" alt="Precept Logo" class="footer-logo">
                 </a>
                 <p class="footer-tagline">At Precept, we deliver provable compliance focused on trust, evidence, and audit-day readiness.</p>
                 <div class="footer-contact-details">
@@ -412,6 +456,6 @@
 
     <script src="../js/script.js"></script>
     <script src="../js/contact.js"></script>
-    
+
 </body>
 </html>

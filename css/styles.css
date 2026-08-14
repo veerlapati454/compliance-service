@@ -99,19 +99,18 @@ body {
     padding: 24px 24px 0 24px;
     z-index: 9999 !important;
 }
+/* Glassmorphic Navbar Pill -> Solid White Pill */
 .navbar-pill {
     max-width: 1200px;
     margin: 0 auto;
-    background: rgba(255, 255, 255, 0.75);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1.5px solid var(--primary);
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.08); /* Clean, subtle border instead of glass border */
     border-radius: 100px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 6px 36px;
-    box-shadow: 0 10px 30px rgba(79, 70, 229, 0.08);
+    padding: 8px 36px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06); /* Soft shadow for contrast over content */
     transition: var(--transition-smooth);
 }
 
@@ -123,7 +122,7 @@ body {
 }
 
 .brand-logo-img {
-    height: 58px;
+    height: 38px;
     width: auto;
     display: block;
     transition: var(--transition-smooth);
@@ -431,7 +430,7 @@ body {
 /* Statistics section below Hero */
 .stats-section-container {
     max-width: 1200px;
-    margin: 20px auto 40px auto;
+    margin: 20px auto 20px auto;
     padding: 0 24px;
     position: relative;
     z-index: 20;
@@ -502,7 +501,7 @@ body {
 /* --- Wellness Section --- */
 .wellness-section-container {
     max-width: 1200px;
-    margin: 80px auto 120px auto;
+    margin: 50px auto 60px auto;
     padding: 0 24px;
     position: relative;
     z-index: 20;
@@ -639,8 +638,8 @@ body {
 .tools-section-container {
     width: 100%;
     max-width: 100%;
-    margin: 100px 0 140px 0;
-    padding: 100px 0;
+    margin: 40px 0 40px 0;
+    padding: 60px 0;
     position: relative;
     z-index: 20;
     overflow: hidden; /* Prevent parallax overflow */
@@ -1307,7 +1306,7 @@ body {
 
     /* Wellness section Mobile stack design */
     .wellness-section-container {
-        margin: 60px auto 80px auto;
+        margin: 40px auto 60px auto;
     }
 
     .wellness-card {
@@ -1371,8 +1370,8 @@ body {
 
     /* Tools Mobile stack modifications */
     .tools-section-container {
-        margin: 40px 0;
-        padding: 40px 0;
+        margin: 30px 0;
+        padding: 30px 0;
     }
 
     .animated-gradient-heading {
@@ -1445,7 +1444,7 @@ body {
 
 .devices-section {
     width: 100%;
-    padding: 120px 0 100px 0;
+    padding: 60px 0 60px 0;
     background: linear-gradient(180deg, #EEF2FF 0%, #ffffff 50%, #F5F7FF 100%);
     position: relative;
     overflow: hidden;
@@ -1567,20 +1566,22 @@ body {
     animation: headingLineIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards;
 }
 
-/* --- Carousel Wrapper (clips overflow, shows only viewport-wide strip) --- */
+/* --- Carousel Wrapper (now a manual, arrow-controlled horizontal scroller) --- */
 .devices-carousel-wrapper {
     width: 100%;
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
     position: relative;
     z-index: 5;
-    /* Fade masks at left & right edges for a premium look */
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 6%, #000 94%, transparent 100%);
-    mask-image: linear-gradient(to right, transparent 0%, #000 6%, #000 94%, transparent 100%);
+    scroll-behavior: smooth;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
-/* Pause scrolling on hover for better UX */
-.devices-carousel-wrapper:hover .devices-track {
-    animation-play-state: paused;
+.devices-carousel-wrapper::-webkit-scrollbar {
+    display: none;
 }
 
 /* --- Infinite Scroll Track --- */
@@ -1589,14 +1590,7 @@ body {
     gap: 28px;
     width: max-content;
     padding: 20px 14px 40px 14px;
-    animation: devices-scroll 38s linear infinite;
     will-change: transform;
-}
-
-/* The total scroll distance = sum of widths of ONE full set of 8 cards */
-@keyframes devices-scroll {
-    0%   { transform: translateX(0); }
-    100% { transform: translateX(calc(-50%)); }
 }
 
 /* --- Individual Device Card --- */
@@ -1608,6 +1602,7 @@ body {
     border-radius: 24px;
     overflow: hidden;
     box-shadow: 0 8px 28px rgba(79, 70, 229, 0.08);
+    scroll-snap-align: start;
     transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
                 box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1),
                 border-color 0.3s ease;
@@ -1703,6 +1698,54 @@ body {
     line-height: 1.6;
 }
 
+/* --- Shared carousel arrow controls (Devices + Experts) --- */
+.carousel-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 8px;
+    position: relative;
+    z-index: 6;
+}
+
+.carousel-nav-btn {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    min-height: 48px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    border: 1.5px solid rgba(79, 70, 229, 0.35);
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(79, 70, 229, 0.1);
+    transition: var(--transition-quick);
+    -webkit-tap-highlight-color: transparent;
+}
+
+.carousel-nav-btn svg {
+    width: 22px;
+    height: 22px;
+    pointer-events: none;
+}
+
+.carousel-nav-btn:hover,
+.carousel-nav-btn:focus-visible {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 26px rgba(79, 70, 229, 0.25);
+}
+
+.carousel-nav-btn:active {
+    transform: translateY(0) scale(0.96);
+}
+
 /* --- Responsive --- */
 @media (max-width: 768px) {
     .devices-section {
@@ -1737,6 +1780,13 @@ body {
     .device-card-title {
         font-size: 1.05rem;
     }
+
+    .carousel-nav-btn {
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+        min-height: 44px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1761,7 +1811,7 @@ body {
 
 .reads-section {
     width: 100%;
-    padding: 120px 0 130px 0;
+    padding: 80px 0 90px 0;
     background: linear-gradient(180deg, #EEF2FF 0%, #ffffff 40%, #F5F7FF 100%);
     position: relative;
     z-index: 20;
@@ -2261,7 +2311,7 @@ body {
 
 .experts-section {
     width: 100%;
-    padding: 120px 0 100px 0;
+    padding: 70px 0 70px 0;
     position: relative;
     z-index: 20;
     overflow: hidden;
@@ -2367,12 +2417,20 @@ body {
 
 .experts-carousel-wrapper {
     width: 100%;
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
     position: relative;
     z-index: 2; /* Above the background */
-    padding: 20px 0 60px 0;
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 6%, #000 94%, transparent 100%);
-    mask-image: linear-gradient(to right, transparent 0%, #000 6%, #000 94%, transparent 100%);
+    padding: 20px 0 30px 0;
+    scroll-behavior: smooth;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.experts-carousel-wrapper::-webkit-scrollbar {
+    display: none;
 }
 
 .experts-track {
@@ -2380,17 +2438,7 @@ body {
     gap: 30px;
     width: max-content;
     padding: 0 15px;
-    animation: expert-scroll 35s linear infinite;
     will-change: transform;
-}
-
-.experts-carousel-wrapper:hover .experts-track {
-    animation-play-state: paused;
-}
-
-@keyframes expert-scroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(calc(-50% - 15px)); }
 }
 
 .expert-card {
@@ -2401,6 +2449,7 @@ body {
     padding: 40px 20px 30px 20px;
     text-align: center;
     box-shadow: 0 10px 25px rgba(79, 70, 229, 0.12);
+    scroll-snap-align: start;
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     flex-shrink: 0;
     cursor: pointer;
@@ -2502,7 +2551,7 @@ body {
 
 .testimonials-section {
     width: 100%;
-    padding: 120px 0;
+    padding: 80px 0;
     position: relative;
     overflow: hidden;
 }
@@ -2831,7 +2880,7 @@ body {
 
 .achiev-section {
     width: 100%;
-    padding: 110px 40px;
+    padding: 80px 40px;
     background: linear-gradient(180deg, #EEF2FF 0%, #ffffff 50%, #F5F7FF 100%);
     position: relative;
     overflow: hidden;
@@ -3204,7 +3253,7 @@ body {
 
 .why-choose-section {
     width: 100%;
-    padding: 110px 40px;
+    padding: 80px 40px;
     background: linear-gradient(180deg, #ffffff 0%, #EEF2FF 100%);
     position: relative;
     overflow: hidden;
@@ -3564,7 +3613,7 @@ body {
 
 .cta-banner-section {
     width: 100%;
-    padding: 80px 40px 60px 40px; /* Extra top padding gives room for image overflow */
+    padding: 50px 40px 40px 40px; /* Extra top padding gives room for image overflow */
     position: relative;
     background: transparent;
     overflow: visible;
@@ -3583,7 +3632,7 @@ body {
     overflow: visible; /* Allow image to overflow above the card */
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center; /* Centered now that there is no image column */
     gap: 0;
     box-shadow: 0 20px 60px rgba(79, 70, 229, 0.35);
     min-height: 190px;
@@ -3642,14 +3691,16 @@ body {
     50%       { transform: translateY(-20px) scale(1.06); }
 }
 
-/* Text column on the left */
+/* Text column — centered now that there is no image column beside it */
 .cta-text-col {
     flex: 1;
-    max-width: 55%;          /* Keeps text away from the right image area */
+    max-width: 100%;
+    text-align: center;
     position: relative;
     z-index: 2;
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: center;
 }
 
@@ -3721,7 +3772,9 @@ body {
 
 .cta-banner-btn:hover svg { transform: translateX(5px); }
 
-/* Image column — doctor overflows ABOVE the card, body inside */
+/* Image column — doctor overflows ABOVE the card, body inside
+   (kept for backward compatibility if the image markup is re-added;
+   has no effect while .cta-image-col is absent from the HTML) */
 .cta-image-col {
     flex-shrink: 0;
     width: 340px;
@@ -3800,6 +3853,7 @@ body {
     height: 40px;
     width: auto;
     display: block;
+    mix-blend-mode: multiply; /* removes the white box, blends logo into footer bg */
 }
 
 .footer-tagline {
@@ -3991,9 +4045,8 @@ body {
 @media (max-width: 1024px) {
     .footer-inner { grid-template-columns: 1fr 1fr; gap: 36px; }
     .cta-card { padding: 44px 48px; }
-    .cta-image-col { width: 280px; right: 24px; }
     .cta-banner-heading { font-size: 2.2rem; }
-    .cta-text-col { max-width: 50%; }
+    .cta-text-col { max-width: 100%; }
 }
 
 @media (max-width: 768px) {
@@ -4002,8 +4055,7 @@ body {
     .cta-banner-section { padding: 70px 20px 50px 20px; }
     .cta-card { padding: 36px 28px; }
     .cta-banner-heading { font-size: 1.75rem; margin-bottom: 20px; }
-    .cta-text-col { max-width: 58%; }
-    .cta-image-col { width: 220px; right: 10px; height: 125%; }
+    .cta-text-col { max-width: 100%; }
 }
 
 /* =============================================================
@@ -4035,7 +4087,7 @@ body {
     }
 
     /* Experts scroll — smaller cards on mobile */
-    .experts-section { padding: 60px 0; }
+    .experts-section { padding: 40px 0; }
     .experts-heading { font-size: 2.2rem; }
     .expert-card {
         width: 240px;
@@ -4044,15 +4096,16 @@ body {
     .expert-img-border { width: 120px; height: 120px; }
 
     /* Testimonials */
-    .testimonials-section { padding: 70px 0; }
+    .testimonials-section { padding: 50px 0; }
 
     /* CTA section complete mobile fix */
-    .cta-banner-section { padding: 40px 16px 40px 16px; overflow: hidden; }
+    .cta-banner-section { padding: 30px 16px ; overflow: hidden; }
     .cta-card {
-        padding: 36px 28px 220px 28px; /* Extra bottom padding for image */
+        padding: 36px 28px;
         flex-direction: column;
         text-align: center;
         align-items: center;
+        justify-content: center;
         min-height: unset;
         overflow: hidden;
         position: relative;
@@ -4073,22 +4126,10 @@ body {
         margin: 0 auto;
         justify-content: center;
     }
+    /* Image column no longer used in the CTA card (no image markup),
+       kept hidden defensively in case it's ever re-added without CSS updates */
     .cta-image-col {
-        display: flex;  /* Show image on mobile, positioned inside card at bottom */
-        width: 200px;
-        height: 200px;
-        position: absolute;
-        bottom: 0;
-        right: 50%;
-        transform: translateX(50%); /* center horizontally */
-        align-items: flex-end;
-        justify-content: center;
-    }
-    .cta-doctor-img {
-        height: 100%;
-        width: auto;
-        object-fit: contain;
-        object-position: bottom center;
+        display: none;
     }
 
     /* Footer */
@@ -4116,7 +4157,7 @@ body {
     .devices-subtext { font-size: 0.95rem; }
 
     /* General padding override for padded sections */
-    .devices-section { padding: 60px 0 50px 0; }
+    .devices-section { padding: 40px 0 30px 0; }
 
     /* Wellness mobile override */
     .wellness-card {
@@ -4171,8 +4212,7 @@ body {
 
     /* CTA */
     .cta-banner-heading { font-size: 1.5rem; }
-    .cta-card { padding: 28px 18px 200px 18px; } /* Keep bottom room for image */
-    .cta-image-col { width: 160px; height: 170px; }
+    .cta-card { padding: 28px 18px; }
     .btn-tool-visit { font-size: 0.88rem; padding: 10px 22px; }
 
     /* Footer inner grid */
@@ -4229,7 +4269,7 @@ body {
 
 .benefits-section {
     width: 100%;
-    padding: 110px 40px;
+    padding: 80px 40px;
     background: linear-gradient(180deg, #EEF2FF 0%, #ffffff 50%, #F5F7FF 100%);
     position: relative;
     overflow: hidden;
@@ -4559,5 +4599,15 @@ body {
     .benefit-wrap:hover .benefit-image-content,
     .benefit-wrap.tapped .benefit-image-content {
         width: 35%;
+    }
+}
+
+/* =========================================================
+   Extra small-screen polish for the arrow-controlled carousels
+   ========================================================= */
+@media (max-width: 480px) {
+    .carousel-controls {
+        gap: 12px;
+        margin-top: 4px;
     }
 }

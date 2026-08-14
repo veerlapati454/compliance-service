@@ -221,7 +221,7 @@
 .ins-featured {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 100px 24px 40px 24px;
+    padding: 90px 24px 40px 24px;
 }
 
 .ins-featured-card {
@@ -295,7 +295,7 @@
     margin-bottom: 22px;
 }
 
-/* NEW — Key takeaways callout inside featured card */
+/* Key takeaways callout inside featured card */
 .ins-featured-takeaways {
     list-style: none;
     margin: 0 0 26px 0;
@@ -388,7 +388,7 @@
 .ins-browse {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 60px 24px 110px 24px;
+    padding: 50px 24px 90px 24px;
 }
 
 .ins-tabs-wrapper {
@@ -407,11 +407,34 @@
     border-radius: 100px;
     padding: 10px 14px;
     box-shadow: 0 12px 32px rgba(79, 70, 229, 0.1);
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+}
+
+/* The shared .reads-tab chip (styles.css) is built as a fixed-size circle
+   for short single-word tags. Insights uses longer two-word labels
+   ("Data Privacy", "Security Tools", "Industry News"), which wrapped
+   onto multiple lines and got clipped inside that circle. Override it
+   to a auto-width, single-line pill here instead. */
+.ins-tabs-wrapper .reads-tab {
+    width: auto !important;
+    height: auto !important;
+    aspect-ratio: unset !important;
+    border-radius: 100px !important;
+    padding: 11px 20px !important;
+    white-space: nowrap;
+    flex: 0 0 auto;
+    font-size: 0.88rem;
+    line-height: 1.2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .ins-grid-wrapper { max-width: 1100px; margin: 0 auto; padding: 0; }
 
-/* NEW — icon-based article cards (replace photography with iconography) */
+/* icon-based article cards (replace photography with iconography) */
 .reads-card.icon-card .reads-card-img-wrap { display: none; }
 
 .ins-icon-panel {
@@ -487,11 +510,11 @@
 .reads-card[data-category="skin"] { --ins-accent-1: #DB2777; --ins-accent-2: #831843; }
 
 /* ---------------------------------------------------------
-   SECTION 3.5 — Glossary flip cards — NEW, no images
+   SECTION 3.5 — Glossary flip cards — no images
    --------------------------------------------------------- */
 .ins-glossary {
     max-width: 1100px;
-    margin: 0 auto 100px auto;
+    margin: 0 auto 80px auto;
     padding: 0 24px;
 }
 
@@ -572,47 +595,60 @@
 }
 
 /* ---------------------------------------------------------
-   SECTION 4 — Trending (scroll-driven horizontal panel)
+   SECTION 4 — Trending This Week
+   Arrow-controlled horizontal carousel (replaces scroll-jacked
+   sticky panel — that mechanism was inflating this section's
+   height by 100vh + track-travel-px, which is what was causing
+   the large empty gaps on scroll, especially on narrow/mobile
+   viewports where the calculation is most exaggerated).
    --------------------------------------------------------- */
-.ins-trend-outer {
-    position: relative;
-    /* height is set by JS based on track width, so the vertical
-       scroll distance matches the horizontal distance to travel */
+.ins-trend-section {
+    background: linear-gradient(160deg, var(--primary-dark) 0%, #4338CA 55%, var(--primary-dark) 100%);
+    padding: 90px 0 76px 0;
+    overflow: hidden;
 }
 
-.ins-trend-sticky {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    overflow: hidden;
-    background: linear-gradient(160deg, var(--primary-dark) 0%, #4338CA 55%, var(--primary-dark) 100%);
+.ins-trend-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
 }
 
 .ins-trend-header {
     text-align: center;
     max-width: 700px;
     margin: 0 auto 40px auto;
-    padding: 0 24px;
 }
 
 .ins-trend-header .section-tagline { color: #C7D2FE; }
 .ins-trend-header .svc-section-heading { color: #ffffff; margin-bottom: 0; }
 
+.ins-trend-carousel {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
 .ins-trend-track {
     display: flex;
-    gap: 32px;
-    padding: 0 8vw;
-    width: max-content;
-    will-change: transform;
+    gap: 24px;
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    padding: 4px 4px 10px 4px;
+    scrollbar-width: none;
 }
+
+.ins-trend-track::-webkit-scrollbar { display: none; }
 
 .ins-trend-card {
     position: relative;
     flex-shrink: 0;
-    width: 320px;
+    width: clamp(210px, 27vw, 320px);
+    scroll-snap-align: start;
     background: rgba(255, 255, 255, 0.06);
     border: 1px solid rgba(255, 255, 255, 0.16);
     border-radius: 22px;
@@ -636,14 +672,6 @@
     margin-bottom: 14px;
 }
 
-.ins-trend-card img {
-    width: 100%;
-    height: 170px;
-    object-fit: cover;
-    border-radius: 14px;
-    margin-bottom: 18px;
-}
-
 .ins-trend-card h3 {
     font-family: var(--font-heading);
     font-size: 1.08rem;
@@ -660,38 +688,68 @@
     color: rgba(255, 255, 255, 0.65);
 }
 
-/* NEW — icon variant trend cards (no photo), with watermark icon + trend-score bar */
-.ins-trend-card.icon-variant {
+/* photo variant trend cards: real photo with a small badge icon
+   over a gradient scrim so the headline pairs with an actual
+   article-relevant image instead of a bare glyph. Fully fluid —
+   height is set with aspect-ratio so it scales at any card width
+   instead of relying on fixed px breakpoints. */
+.ins-trend-card.photo-variant {
     display: flex;
     flex-direction: column;
     overflow: hidden;
 }
 
-.ins-trend-icon-hero {
+.ins-trend-img-wrap {
     position: relative;
-    height: 170px;
+    width: 100%;
+    aspect-ratio: 16 / 11;
     border-radius: 14px;
     margin-bottom: 18px;
+    overflow: hidden;
+    background: linear-gradient(150deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.03) 100%);
+}
+
+.ins-trend-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.ins-trend-card.photo-variant:hover .ins-trend-img {
+    transform: scale(1.06);
+}
+
+/* scrim so the badge icon stays legible over any photo */
+.ins-trend-img-wrap::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(30, 27, 75, 0) 55%, rgba(30, 27, 75, 0.55) 100%);
+    pointer-events: none;
+}
+
+.ins-trend-img-icon {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    z-index: 2;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(150deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.03) 100%);
-    overflow: hidden;
+    background: rgba(30, 27, 75, 0.55);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
-.ins-trend-icon-hero i.watermark {
-    position: absolute;
-    font-size: 7rem;
-    color: rgba(255,255,255,0.08);
-    right: -10px;
-    bottom: -18px;
-}
-
-.ins-trend-icon-hero i.foreground {
-    font-size: 2.3rem;
+.ins-trend-img-icon i {
+    font-size: 0.95rem;
     color: #ffffff;
-    position: relative;
-    z-index: 2;
 }
 
 .ins-trend-score {
@@ -731,7 +789,7 @@
     height: 4px;
     background: rgba(255, 255, 255, 0.15);
     border-radius: 4px;
-    margin: 44px auto 0 auto;
+    margin: 32px auto 0 auto;
     overflow: hidden;
 }
 
@@ -740,6 +798,57 @@
     width: 0%;
     background: linear-gradient(90deg, #C7D2FE, #ffffff);
     border-radius: 4px;
+    transition: width 0.15s linear;
+}
+
+/* ---------------------------------------------------------
+   Shared arrow-carousel button (used by Trending + Writers)
+   --------------------------------------------------------- */
+.ins-carousel-arrow {
+    flex-shrink: 0;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(79, 70, 229, 0.22);
+    background: #ffffff;
+    color: var(--primary-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(49, 46, 129, 0.1);
+    transition: var(--transition-smooth);
+}
+
+.ins-carousel-arrow svg {
+    width: 20px;
+    height: 20px;
+}
+
+.ins-carousel-arrow:hover:not(:disabled) {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.ins-carousel-arrow:disabled {
+    opacity: 0.32;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* light-on-dark variant for the Trending section */
+.ins-trend-carousel .ins-carousel-arrow {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.28);
+    color: #ffffff;
+}
+
+.ins-trend-carousel .ins-carousel-arrow:hover:not(:disabled) {
+    background: #ffffff;
+    border-color: #ffffff;
+    color: var(--primary-dark);
 }
 
 /* ---------------------------------------------------------
@@ -747,7 +856,7 @@
    --------------------------------------------------------- */
 .ins-stats-section {
     max-width: 1200px;
-    margin: -50px auto 0 auto;
+    margin: 0 auto;
     padding: 0 24px;
     position: relative;
     z-index: 10;
@@ -765,8 +874,36 @@
 }
 
 /* ---------------------------------------------------------
-   SECTION 7 — Writers: initials-avatar flip cards — NEW
+   SECTION 7 — Writers: initials-avatar flip cards
+   Track is now a manual, arrow-controlled horizontal scroller
+   (the auto-marquee animation defined for .experts-track in
+   styles.css is disabled here so it doesn't fight the buttons).
    --------------------------------------------------------- */
+.experts-carousel-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+#ins-writers-track.experts-track {
+    animation: none !important;
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 6px;
+}
+
+#ins-writers-track.experts-track::-webkit-scrollbar { display: none; }
+
+#ins-writers-track .expert-card { scroll-snap-align: start; }
+
 .expert-card.initials-variant .expert-img-border {
     perspective: 900px;
 }
@@ -825,16 +962,11 @@
     font-size: 1.1rem;
 }
 
-.expert-card:nth-of-type(1),
-.expert-card:nth-of-type(6) { --ins-w-1: #4F46E5; --ins-w-2: #312E81; }
-.expert-card:nth-of-type(2),
-.expert-card:nth-of-type(7) { --ins-w-1: #059669; --ins-w-2: #064E3B; }
-.expert-card:nth-of-type(3),
-.expert-card:nth-of-type(8) { --ins-w-1: #7C3AED; --ins-w-2: #4C1D95; }
-.expert-card:nth-of-type(4),
-.expert-card:nth-of-type(9) { --ins-w-1: #0EA5E9; --ins-w-2: #075985; }
-.expert-card:nth-of-type(5),
-.expert-card:nth-of-type(10) { --ins-w-1: #DB2777; --ins-w-2: #831843; }
+.expert-card:nth-of-type(1) { --ins-w-1: #4F46E5; --ins-w-2: #312E81; }
+.expert-card:nth-of-type(2) { --ins-w-1: #059669; --ins-w-2: #064E3B; }
+.expert-card:nth-of-type(3) { --ins-w-1: #7C3AED; --ins-w-2: #4C1D95; }
+.expert-card:nth-of-type(4) { --ins-w-1: #0EA5E9; --ins-w-2: #075985; }
+.expert-card:nth-of-type(5) { --ins-w-1: #DB2777; --ins-w-2: #831843; }
 
 .expert-fact {
     font-family: var(--font-body);
@@ -868,24 +1000,45 @@
     .ins-hero-actions { flex-direction: column; align-items: stretch; gap: 12px; }
     .ins-hero-actions .btn-book, .ins-hero-actions .btn-learn { text-align: center; }
 
+    .ins-value-props { margin-top: 40px; gap: 16px; }
+
     .svc-section-heading { font-size: 1.85rem; }
 
-    .ins-featured { padding: 60px 20px 20px 20px; }
+    .ins-featured { padding: 50px 20px 20px 20px; }
     .ins-featured-title { font-size: 1.55rem; }
     .ins-featured-content { padding: 30px 26px; }
 
-    .ins-browse { padding: 40px 20px 70px 20px; }
+    .ins-browse { padding: 36px 20px 60px 20px; }
     .ins-tabs-wrapper { position: static; }
-    .ins-tabs-wrapper .reads-tabs { overflow-x: auto; justify-content: flex-start; flex-wrap: nowrap; }
+    .ins-tabs-wrapper .reads-tabs {
+        overflow-x: auto;
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+    .ins-tabs-wrapper .reads-tabs::-webkit-scrollbar { display: none; }
+    .ins-tabs-wrapper .reads-tab {
+        padding: 9px 16px !important;
+        font-size: 0.82rem;
+    }
 
-    .ins-trend-card { width: 250px; }
-    .ins-trend-card img { height: 140px; }
-    .ins-trend-icon-hero { height: 140px; }
+    .ins-glossary { margin-bottom: 60px; }
+    .glossary-grid { grid-template-columns: repeat(2, 1fr); }
+
+    .ins-trend-section { padding: 60px 0 56px 0; }
+    .ins-trend-inner { padding: 0 16px; }
+    .ins-trend-carousel { gap: 10px; }
+    .ins-trend-card { width: clamp(190px, 62vw, 250px); padding: 18px 18px 22px 18px; }
+    .ins-trend-track { gap: 16px; }
+
+    .ins-carousel-arrow { width: 38px; height: 38px; }
+    .ins-carousel-arrow svg { width: 16px; height: 16px; }
 
     .ins-stats-card { flex-direction: column; gap: 24px; padding: 28px 24px; }
-    .ins-stats-section { margin-top: -30px; }
+    .ins-stats-section { margin-top: 24px; }
 
-    .glossary-grid { grid-template-columns: repeat(2, 1fr); }
+    .experts-carousel-wrapper { padding: 0 16px; gap: 10px; }
 }
 
 @media (max-width: 480px) {
@@ -893,4 +1046,16 @@
     .ins-ticker-item { font-size: 0.85rem; }
     .glossary-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
     .glossary-card { height: 130px; }
+
+    .ins-trend-card { width: clamp(170px, 78vw, 220px); }
+    .ins-trend-img-icon { width: 28px; height: 28px; }
+    .ins-trend-img-icon i { font-size: 0.8rem; }
+    .ins-carousel-arrow { width: 34px; height: 34px; }
+}
+
+@media (max-width: 380px) {
+    .ins-trend-card { width: 82vw; padding: 16px 16px 20px 16px; }
+    .ins-trend-carousel { gap: 8px; }
+    .ins-carousel-arrow { width: 30px; height: 30px; }
+    .ins-carousel-arrow svg { width: 14px; height: 14px; }
 }
