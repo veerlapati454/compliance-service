@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
+    console.log("[contact.js] loaded — steps arrows build v3");
+
 
     // 1. Hero entry animation
     const heroReveals = document.querySelectorAll(".ctc-hero .reveal-text");
@@ -54,8 +56,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }, { passive: true });
     updateHeroParallax();
 
-    // 5. Scroll-driven horizontal "What happens next" steps panel, now with
-    //    manual prev/next arrow controls in addition to the scroll-linked motion.
+    // 5. "What happens next" steps panel.
+    //    Desktop: scroll-driven horizontal translate inside a sticky
+    //    section (original effect), re-measured after web fonts load
+    //    so the travel distance is accurate.
+    //    Mobile (<=768px): native horizontal swipe/snap-scroll instead
+    //    of scroll-jacking, since translating a track based on vertical
+    //    scroll fights touch input and mobile viewport-height changes.
     const stepsOuter = document.getElementById("ctc-steps-outer");
     const stepsTrack = document.getElementById("ctc-steps-track");
     const stepsProgressBar = document.getElementById("ctc-steps-progress-bar");
@@ -63,6 +70,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const stepsNextBtn = document.getElementById("ctc-steps-next");
     const stepCards = stepsTrack ? stepsTrack.querySelectorAll(".ctc-step-card") : [];
 
+    const stepsMediaQuery = window.matchMedia("(max-width: 768px)");
+    let stepsMode = null; // "mobile" | "desktop"
+    let desktopScrollHandler = null;
+    let desktopResizeHandler = null;
+    let mobileScrollHandler = null;
+    let currentStepIndex = 0; // tracks which card is "active" on mobile
+
+    // ---- Desktop: scroll-jacked horizontal translate ----
     function sizeStepsSection() {
         if (!stepsOuter || !stepsTrack) return;
         const trackWidth = stepsTrack.scrollWidth;
@@ -108,16 +123,144 @@ document.addEventListener("DOMContentLoaded", () => {
         window.scrollBy({ top: direction * stepAmount, behavior: "smooth" });
     }
 
-    if (stepsOuter && stepsTrack) {
-        sizeStepsSection();
-        window.addEventListener("resize", sizeStepsSection);
-        window.addEventListener("scroll", () => {
-            requestAnimationFrame(updateStepsScroll);
-        }, { passive: true });
-        updateStepsScroll();
+    function teardownDesktopSteps() {
+        if (desktopScrollHandler) window.removeEventListener("scroll", desktopScrollHandler);
+        if (desktopResizeHandler) window.removeEventListener("resize", desktopResizeHandler);
+        desktopScrollHandler = null;
+        desktopResizeHandler = null;
+        if (stepsOuter) {
+            stepsOuter.style.height = "";
+            delete stepsOuter.dataset.travel;
+        }
+        if (stepsTrack) stepsTrack.style.transform = "";
+    }
 
-        if (stepsPrevBtn) stepsPrevBtn.addEventListener("click", () => stepByArrow(-1));
-        if (stepsNextBtn) stepsNextBtn.addEventListener("click", () => stepByArrow(1));
+    function setupDesktopSteps() {
+        sizeStepsSection();
+        // Re-measure once web fonts finish loading — on first paint fonts
+        // may still be swapping in, which under-measures scrollWidth and
+        // cuts the travel distance short (the bug that hid the 4th card).
+        if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(() => sizeStepsSection());
+        }
+        desktopResizeHandler = sizeStepsSection;
+        desktopScrollHandler = () => requestAnimationFrame(updateStepsScroll);
+
+        window.addEventListener("resize", desktopResizeHandler);
+        window.addEventListener("scroll", desktopScrollHandler, { passive: true });
+        updateStepsScroll();
+    }
+
+    // ---- Mobile: native horizontal swipe / snap-scroll ----
+    // Card-to-card distance in px, used only for the progress bar / index sync.
+    function getStepCardStride() {
+        if (stepCards.length < 1) return 280;
+        const first = stepCards[0].getBoundingClientRect();
+        if (stepCards.length > 1) {
+            const second = stepCards[1].getBoundingClientRect();
+            return Math.round(second.left - first.left) || (first.width + 32);
+        }
+        return Math.round(first.width + 32);
+    }
+
+    function updateMobileStepsUI() {
+        if (!stepsTrack) return;
+        const maxScroll = stepsTrack.scrollWidth - stepsTrack.clientWidth;
+        const stride = getStepCardStride();
+
+        // Keep currentStepIndex in sync with real (possibly manual/swiped) scroll position.
+        currentStepIndex = stride > 0
+            ? Math.round(stepsTrack.scrollLeft / stride)
+            : 0;
+        currentStepIndex = Math.max(0, Math.min(currentStepIndex, stepCards.length - 1));
+
+        if (stepsPrevBtn) stepsPrevBtn.disabled = stepsTrack.scrollLeft <= 4;
+        if (stepsNextBtn) stepsNextBtn.disabled = maxScroll <= 0 || stepsTrack.scrollLeft >= maxScroll - 4;
+        if (stepsProgressBar) {
+            const pct = maxScroll > 0 ? (stepsTrack.scrollLeft / maxScroll) * 100 : 0;
+            stepsProgressBar.style.width = `${pct}%`;
+        }
+    }
+
+    // Measures the target card's real current position relative to the
+    // track's real current position (via getBoundingClientRect, not
+    // offsetLeft/stride math) and scrolls exactly that distance. This is
+    // immune to any mismatch between our assumptions and the actual
+    // rendered layout — it just moves the container by however far the
+    // card visibly is from the edge right now.
+    function scrollStepsByCard(direction) {
+        if (!stepsTrack || !stepCards.length) return;
+
+        currentStepIndex = Math.max(0, Math.min(currentStepIndex + direction, stepCards.length - 1));
+        const targetCard = stepCards[currentStepIndex];
+        if (!targetCard) return;
+
+        const trackRect = stepsTrack.getBoundingClientRect();
+        const cardRect = targetCard.getBoundingClientRect();
+        const delta = cardRect.left - trackRect.left;
+
+        const maxScroll = stepsTrack.scrollWidth - stepsTrack.clientWidth;
+        const target = Math.max(0, Math.min(stepsTrack.scrollLeft + delta, maxScroll));
+
+        stepsTrack.scrollTo({ left: target, behavior: "smooth" });
+        setTimeout(updateMobileStepsUI, 400);
+    }
+
+    function teardownMobileSteps() {
+        if (mobileScrollHandler && stepsTrack) {
+            stepsTrack.removeEventListener("scroll", mobileScrollHandler);
+        }
+        mobileScrollHandler = null;
+        if (stepsProgressBar) stepsProgressBar.style.width = "0%";
+    }
+
+    function setupMobileSteps() {
+        if (!stepsTrack) return;
+        mobileScrollHandler = () => requestAnimationFrame(updateMobileStepsUI);
+        stepsTrack.addEventListener("scroll", mobileScrollHandler, { passive: true });
+        updateMobileStepsUI();
+    }
+
+    // ---- Mode switch: swap setups when crossing the breakpoint ----
+    function applyStepsMode() {
+        if (!stepsOuter || !stepsTrack) return;
+        const wantMobile = stepsMediaQuery.matches;
+        const nextMode = wantMobile ? "mobile" : "desktop";
+        if (nextMode === stepsMode) return;
+
+        if (stepsMode === "desktop") teardownDesktopSteps();
+        if (stepsMode === "mobile") teardownMobileSteps();
+
+        stepsMode = nextMode;
+        if (stepsMode === "mobile") {
+            setupMobileSteps();
+        } else {
+            setupDesktopSteps();
+        }
+    }
+
+    if (stepsOuter && stepsTrack) {
+        applyStepsMode();
+
+        if (stepsMediaQuery.addEventListener) {
+            stepsMediaQuery.addEventListener("change", applyStepsMode);
+        } else if (stepsMediaQuery.addListener) {
+            // Safari <14 fallback
+            stepsMediaQuery.addListener(applyStepsMode);
+        }
+
+        if (stepsPrevBtn) {
+            stepsPrevBtn.addEventListener("click", () => {
+                if (stepsMediaQuery.matches) scrollStepsByCard(-1);
+                else stepByArrow(-1);
+            });
+        }
+        if (stepsNextBtn) {
+            stepsNextBtn.addEventListener("click", () => {
+                if (stepsMediaQuery.matches) scrollStepsByCard(1);
+                else stepByArrow(1);
+            });
+        }
     }
 
     // 6. Contact form — field focus affordance + input restriction + validation
@@ -253,25 +396,35 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // 7. "Talk it through live" wellness form — visible email validation
-    const wellnessForm = document.getElementById("ctc-wellness-form");
-    const wellnessEmailInput = document.getElementById("ctc-wellness-email");
+    (function setupWellnessFormValidation() {
+        const wellnessForm = document.getElementById("ctc-wellness-form");
+        const wellnessEmailInput = document.getElementById("ctc-wellness-email");
+        if (!wellnessForm || !wellnessEmailInput) return;
 
-    if (wellnessForm && wellnessEmailInput) {
+        function isValidEmail(value) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
+        }
+
         wellnessEmailInput.addEventListener("input", () => {
             wellnessForm.classList.remove("has-error");
         });
 
         wellnessForm.addEventListener("submit", (e) => {
+            // Always stop the default navigation first — invalid input should
+            // never reach action="404.html", regardless of what else runs.
+            e.preventDefault();
+
             const val = wellnessEmailInput.value.trim();
             if (!val || !isValidEmail(val)) {
-                e.preventDefault();
                 wellnessForm.classList.add("has-error");
                 wellnessEmailInput.focus();
-            } else {
-                wellnessForm.classList.remove("has-error");
+                return;
             }
+
+            wellnessForm.classList.remove("has-error");
+            // TODO: valid email — hook up real submit / success state here.
         });
-    }
+    })();
 
     // 8. FAQ accordion — one item open at a time, height animated via scrollHeight
     (function setupFaqAccordion() {

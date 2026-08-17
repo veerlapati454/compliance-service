@@ -405,7 +405,7 @@
 .ctc-steps-outer {
     position: relative;
     /* height is set by JS based on track width, so vertical scroll
-       distance maps to horizontal travel distance */
+       distance maps to horizontal travel distance (desktop only) */
 }
 
 .ctc-steps-sticky {
@@ -676,7 +676,45 @@
     .ctc-form-section { padding: 50px 20px 20px 20px; }
     .ctc-form-row { grid-template-columns: 1fr; }
 
-    .ctc-step-card { width: 250px; }
+    /* --- "What happens next" steps: switch from scroll-jacked
+       horizontal-translate to a native swipeable, snap-scrolling
+       row. The desktop version relies on a tall spacer (.ctc-steps-outer
+       height set via JS) plus position:sticky to fake horizontal
+       scrolling from vertical scroll input; that technique fights
+       touch scrolling and is unreliable with mobile viewport-height
+       changes (address bar show/hide) and late web-font loading.
+       On mobile we drop all of that and let flex + scroll-snap do the
+       work natively. */
+    .ctc-steps-outer { height: auto !important; }
+
+    .ctc-steps-sticky {
+        position: static;
+        height: auto;
+        padding: 70px 0;
+    }
+
+    .ctc-steps-track {
+        width: 100%;                   /* override desktop's width:max-content — that rule
+                                           sizes the track exactly to its content, so it never
+                                           has internal overflow and overflow-x:auto below does
+                                           nothing. Constraining width here is what makes the
+                                           track's own box narrower than its cards and lets it
+                                           actually become a scrollable container. */
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;         /* Firefox */
+        -ms-overflow-style: none;      /* old Edge/IE */
+        padding: 0 20px;
+        transform: none !important;    /* ignore any leftover JS transform */
+    }
+    .ctc-steps-track::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+
+    .ctc-step-card {
+        width: 250px;
+        scroll-snap-align: start;
+    }
+
     .ctc-steps-arrow { width: 40px; height: 40px; font-size: 1rem; }
     .ctc-steps-arrow-prev { left: 10px; }
     .ctc-steps-arrow-next { right: 10px; }
