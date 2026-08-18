@@ -396,36 +396,44 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // 7. "Talk it through live" wellness form — visible email validation
-    (function setupWellnessFormValidation() {
-        const wellnessForm = document.getElementById("ctc-wellness-form");
-        const wellnessEmailInput = document.getElementById("ctc-wellness-email");
-        if (!wellnessForm || !wellnessEmailInput) return;
+    // 7. "Talk it through live" wellness form — visible email validation
+(function setupWellnessFormValidation() {
+    const wellnessForm = document.getElementById("ctc-wellness-form");
+    const wellnessEmailInput = document.getElementById("ctc-wellness-email");
 
-        function isValidEmail(value) {
-            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
+    if (!wellnessForm || !wellnessEmailInput) return;
+
+    function isValidEmail(value) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
+    }
+
+    // Remove error while typing
+    wellnessEmailInput.addEventListener("input", () => {
+        wellnessForm.classList.remove("has-error");
+    });
+
+    wellnessForm.addEventListener("submit", (e) => {
+
+        // Stop normal form submission first
+        e.preventDefault();
+
+        const val = wellnessEmailInput.value.trim();
+
+        // Invalid email
+        if (!val || !isValidEmail(val)) {
+            wellnessForm.classList.add("has-error");
+            wellnessEmailInput.focus();
+            return;
         }
 
-        wellnessEmailInput.addEventListener("input", () => {
-            wellnessForm.classList.remove("has-error");
-        });
+        // Valid email
+        wellnessForm.classList.remove("has-error");
 
-        wellnessForm.addEventListener("submit", (e) => {
-            // Always stop the default navigation first — invalid input should
-            // never reach action="404.html", regardless of what else runs.
-            e.preventDefault();
+        // Redirect to 404.html
+        window.location.href = "404.html";
+    });
 
-            const val = wellnessEmailInput.value.trim();
-            if (!val || !isValidEmail(val)) {
-                wellnessForm.classList.add("has-error");
-                wellnessEmailInput.focus();
-                return;
-            }
-
-            wellnessForm.classList.remove("has-error");
-            // TODO: valid email — hook up real submit / success state here.
-        });
-    })();
-
+})();
     // 8. FAQ accordion — one item open at a time, height animated via scrollHeight
     (function setupFaqAccordion() {
         const faqItems = document.querySelectorAll(".ctc-faq-item");
